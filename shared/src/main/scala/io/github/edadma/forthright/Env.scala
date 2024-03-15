@@ -14,6 +14,7 @@ class Env:
   var buf = new ListBuffer[Word]
   var word: String = null
   var mode = Mode.Run
+  var pc: Int = 0
 
   def pop: Any = dataStack.pop
 

@@ -7,7 +7,7 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-      |123 .
+      |123 . 10 emit
       |""".stripMargin
 
   interpret(env, CharReader.fromString(input))

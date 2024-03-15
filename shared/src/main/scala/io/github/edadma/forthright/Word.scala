@@ -19,8 +19,8 @@ case class NuclearWord(name: String, action: Env => Unit) extends SimpleWord:
 
 case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWord:
   def run(env: Env): Unit =
-    var pc = 0
+    env.pc = 0
 
-    while pc < definition.length do
-      definition(pc).run(env)
-      pc += 1
+    while env.pc < definition.length do
+      definition(env.pc).run(env)
+      env.pc += 1
