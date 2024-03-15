@@ -6,7 +6,9 @@ import scala.collection.immutable.ArraySeq
 
 abstract class Word:
   val name: String
+
   def compile(env: Env, r: CharReader): CharReader
+
   def run(env: Env): Unit
 
 abstract class SimpleWord extends Word:
@@ -14,7 +16,7 @@ abstract class SimpleWord extends Word:
     env.addToDefinition(this)
     r
 
-case class NuclearWord(name: String, action: Env => Unit) extends SimpleWord:
+case class NucleusWord(name: String, action: Env => Unit) extends SimpleWord:
   def run(env: Env): Unit = action(env)
 
 case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWord:
@@ -24,3 +26,8 @@ case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWo
     while env.pc < definition.length do
       definition(env.pc).run(env)
       env.pc += 1
+
+case class CompilerWord(name: String, action: Env => Unit) extends Word:
+  def compile(env: Env, r: CharReader): CharReader = r.error("not allowed here")
+
+  def run(env: Env): Unit = action(env)

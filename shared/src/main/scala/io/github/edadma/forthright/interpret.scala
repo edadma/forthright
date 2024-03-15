@@ -30,11 +30,18 @@ def interpret(env: Env, input: CharReader): Unit =
   if r.more then
     val (r1, s) = consumeWhile(r, !_.isWhitespace)
 
-    if s.forall(_.isDigit) then env.push(s.toInt)
-    else
-      env.dictionary get s match
-        case None => r.error("word not found")
-        case Some(w) =>
-          w.run(env)
+    val r2 =
+      if s.forall(_.isDigit) then
+        env.push(s.toInt)
+        r1
+      else
+        env.dictionary get s match
+          case None => r.error("word not found")
+          case Some(w) =>
+            env.mode match
+              case Mode.Run =>
+                w.run(env)
+                r1
+              case Mode.Compile => w.compile(env, r1)
 
-    interpret(env, skipWhitespace(r1))
+    interpret(env, skipWhitespace(r2))
