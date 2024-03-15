@@ -1,11 +1,13 @@
 package io.github.edadma.forthright
 
+import io.github.edadma.char_reader.CharReader
 import pprint.pprintln
 
 @main def run(): Unit =
   val env = new Env
+  val input =
+    """
+      |123 .
+      |""".stripMargin
 
-  env.push(1, 2, 3)
-
-  println(env.dataStack(0))
-  println(env.pop)
+  interpret(env, CharReader.fromString(input))

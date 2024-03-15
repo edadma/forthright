@@ -13,7 +13,7 @@ class Env:
   val dictionary = new mutable.LinkedHashMap[String, Word]
   var buf = new ListBuffer[Word]
   var word: String = null
-  var mode: Mode = Run
+  var mode = Mode.Run
 
   def pop: Any = dataStack.pop
 

@@ -17,7 +17,7 @@ abstract class SimpleWord extends Word:
 case class NuclearWord(name: String, action: Env => Unit) extends SimpleWord:
   def run(env: Env): Unit = action(env)
 
-case class Definition(name: String, definition: ArraySeq[Word]) extends Word:
+case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWord:
   def run(env: Env): Unit =
     var pc = 0
 
