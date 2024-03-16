@@ -17,7 +17,9 @@ class Env:
   var mode: Mode = Mode.Run
   var pc: Int = 0
 
-  def pop: Any = dataStack.pop
+  def pop: Any =
+    if dataStack.isEmpty then sys.error("empty data stack")
+    else dataStack.pop
 
   def popi: Int = dataStack.pop.asInstanceOf[Int]
 
@@ -28,6 +30,8 @@ class Env:
   def pushAll(elems: scala.collection.IterableOnce[Any]): Unit = dataStack.pushAll(elems)
 
   infix def npop(n: Int): Seq[Any] = (1 to n) map (_ => pop) reverse
+
+  infix def npopn(n: Int): Seq[Int] = ((1 to n) map (_ => pop) reverse).asInstanceOf[Seq[Int]]
 
   def addToDictionary(words: Seq[Word]): Unit = dictionary ++= words.map(w => w.name -> w)
 
