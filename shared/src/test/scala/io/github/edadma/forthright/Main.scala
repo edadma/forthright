@@ -5,12 +5,13 @@ import pprint.pprintln
 
 @main def run(): Unit =
   val env = new Env
-//  val input =
-//    """
-//      |: n 123 . 10 emit ;
-//      |n
-//      |." asdf"
-//      |""".stripMargin
-  val input = """ : p ." asdf" ; p """
+  val input =
+    """
+      |: nl 10 emit ;
+      |: n 123 . nl ;
+      |: p ." asdf" nl ;
+      |n p
+      |." zxcv" nl
+      |""".stripMargin
 
   interpret(env, CharReader.fromString(input))
