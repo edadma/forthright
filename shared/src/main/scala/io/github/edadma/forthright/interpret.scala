@@ -35,15 +35,17 @@ def interpret(env: Env, input: CharReader): Unit =
     case Left(_) =>
     case Right((r1, s)) =>
       val w =
-        WrappedWord(
-          r,
-          if s.forall(_.isDigit) then NumberWord(s)
-          else env.dictionary.getOrElse(s, r.error("word not found")),
-        )
-      println(w.name)
+        if s.forall(_.isDigit) then NumberWord(s)
+        else env.dictionary.getOrElse(s, r.error("word not found"))
       val r2 =
         env.mode match
-          case Mode.Run     => w.run(env, r1)
-          case Mode.Compile => w.compile(env, r1)
+          case Mode.Run =>
+            env.pos = r
+
+            val r2 = w.run(env, r1)
+
+            env.pos = null
+            r2
+          case Mode.Compile => w.compile(env, r, r1)
 
       interpret(env, skipWhitespace(r2))

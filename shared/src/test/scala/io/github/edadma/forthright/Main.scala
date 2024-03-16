@@ -12,7 +12,7 @@ import pprint.pprintln
       |: p ." asdf" nl ;
       |n p
       |." zxcv" nl
-      | 4 + .
+      |3 4 + . nl
       |""".stripMargin
 
   interpret(env, CharReader.fromString(input))
