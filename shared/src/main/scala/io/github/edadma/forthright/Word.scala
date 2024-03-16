@@ -44,7 +44,7 @@ case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWo
 
     r
 
-case class CompilerWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
+case class RuntimeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader = r.error("not allowed here")
 
   def run(env: Env, r: CharReader): CharReader = action(env, r)

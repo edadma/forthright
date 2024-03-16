@@ -20,13 +20,13 @@ val builtin =
     NucleusWord("+", env => env.push(env npopn 2 sum)),
     //
     // Compiler words
-    CompilerWord(
+    RuntimeWord(
       ":",
       { (env, r) =>
         val r1 = skipWhitespace(r)
 
         consumeChars(r1) match
-          case Left(r2) => r1.error("unclosed definition")
+          case Left(r2) => r2.error("word name expected")
           case Right((r2, s)) =>
             env.openDefinition(s)
             r2
@@ -53,4 +53,21 @@ val builtin =
         print(s)
         r1.next
     },
+    //
+    // non Forth-79 words
+    RuntimeWord(
+      "SEE",
+      { (env, r) =>
+        val r1 = skipWhitespace(r)
+
+        consumeChars(r1) match
+          case Left(r2) => r2.error("word name expected")
+          case Right((r2, s)) =>
+            env.dictionary.getOrElse(s.toUpperCase, r1.error("word not found")) match
+              case Definition(name, definition) =>
+                println(s": $name ${definition map (_.name) mkString " "} ;")
+              case w => r1.error("not a user-defined word")
+            r2
+      },
+    ),
   )
