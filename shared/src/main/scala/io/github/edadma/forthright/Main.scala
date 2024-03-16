@@ -18,6 +18,7 @@ import org.jline.terminal.TerminalBuilder
 
   println("Forthright v0.0.1")
   println
+  println("Type Ctrl-D to exit.")
 
   while true do
     try {
