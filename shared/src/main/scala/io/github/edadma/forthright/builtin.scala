@@ -35,7 +35,7 @@ val builtin =
             r2
       },
     ),
-    CompileModeWord(
+    CompileTimeWord(
       ";",
       { (env, r) =>
         env.closeDefinition()

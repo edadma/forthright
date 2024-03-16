@@ -49,7 +49,7 @@ case class RuntimeWord(name: String, action: (Env, CharReader) => CharReader) ex
 
   def run(env: Env, r: CharReader): CharReader = action(env, r)
 
-case class CompileModeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
+case class CompileTimeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader = action(env, r)
 
   def run(env: Env, r: CharReader): CharReader = r.error("not allowed here")
