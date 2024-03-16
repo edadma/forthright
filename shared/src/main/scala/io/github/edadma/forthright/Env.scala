@@ -40,6 +40,11 @@ class Env:
 
   infix def npopn(n: Int): Seq[Int] = ((1 to n) map (_ => pop) reverse).asInstanceOf[Seq[Int]]
 
+  infix def execn2(action: (Int, Int) => Any): Any =
+    val Seq(a, b) = npopn(2)
+
+    action(a, b)
+
   def addToDictionary(words: Seq[Word]): Unit = dictionary ++= words.map(w => w.name -> w)
 
   def openDefinition(name: String): Unit =

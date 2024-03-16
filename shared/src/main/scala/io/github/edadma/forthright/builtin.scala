@@ -18,6 +18,8 @@ val builtin =
     NucleusWord("CR", _ => println),
     NucleusWord("SPACE", _ => print(" ")),
     NucleusWord("+", env => env.push(env npopn 2 sum)),
+    NucleusWord("*", env => env.push(env npopn 2 product)),
+    NucleusWord("-", env => env.push(env execn2 (_ - _))),
     //
     // Compiler words
     RuntimeWord(
@@ -25,7 +27,7 @@ val builtin =
       { (env, r) =>
         val r1 = skipWhitespace(r)
 
-        consumeChars(r1) match
+        consumeWord(r1) match
           case Left(r2) => r2.error("word name expected")
           case Right((r2, s)) =>
             env.openDefinition(s)
@@ -60,7 +62,7 @@ val builtin =
       { (env, r) =>
         val r1 = skipWhitespace(r)
 
-        consumeChars(r1) match
+        consumeWord(r1) match
           case Left(r2) => r2.error("word name expected")
           case Right((r2, s)) =>
             env.dictionary.getOrElse(s.toUpperCase, r1.error("word not found")) match

@@ -11,7 +11,7 @@ import pprint.pprintln
       |n p
       |." zxcv" cr
       |3 4 + . cr
-      |see n
+      |3 4 - .
       |""".stripMargin
 
   interpret(env, input)

@@ -10,8 +10,8 @@ class StackTests extends AnyFreeSpec with Matchers with Tests {
   "over" in { stack("n1 n2 over") shouldBe stack("n1 n2 n1") }
   "swap" in { stack("n1 n2 swap") shouldBe stack("n2 n1") }
 
-  "+" in {
-    stack("3 4 +") shouldBe stack("7")
-  }
+  "+" in { stack("3 4 +") shouldBe stack("7") }
+  "-" in { stack("3 4 -") shouldBe stack("-1") }
+  "*" in { stack("3 4 *") shouldBe stack("12") }
 
 }
