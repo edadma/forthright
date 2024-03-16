@@ -23,25 +23,29 @@ def consumeWhile(r: CharReader, pred: Char => Boolean): (CharReader, String) =
 
   consumeWhile(r)
 
-@tailrec
-def interpret(env: Env, input: CharReader): Unit =
+def consumeChars(input: CharReader): Either[CharReader, (CharReader, String)] =
   val r = skipWhitespace(input)
 
-  if r.more then
-    val (r1, s) = consumeWhile(r, !_.isWhitespace)
+  if r.more then Right(consumeWhile(r, !_.isWhitespace))
+  else Left(r)
 
-    val r2 =
-      if s.forall(_.isDigit) then
-        env.push(s.toInt)
-        r1
-      else
-        env.dictionary get s match
-          case None => r.error("word not found")
-          case Some(w) =>
-            env.mode match
-              case Mode.Run =>
-                w.run(env)
-                r1
-              case Mode.Compile => w.compile(env, r1)
+@tailrec
+def interpret(env: Env, input: CharReader): Unit =
+  consumeChars(input) match
+    case Left(r) =>
+    case Right((r, s)) =>
+      val r1 =
+        if s.forall(_.isDigit) then
+          env.push(s.toInt)
+          r
+        else
+          env.dictionary get s match
+            case None => r.error("word not found")
+            case Some(w) =>
+              env.mode match
+                case Mode.Run =>
+                  w.run(env)
+                  r
+                case Mode.Compile => w.compile(env, r)
 
-    interpret(env, skipWhitespace(r2))
+      interpret(env, skipWhitespace(r1))
