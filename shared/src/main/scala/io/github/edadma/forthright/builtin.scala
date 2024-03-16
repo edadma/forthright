@@ -12,10 +12,21 @@ val builtin =
     NucleusWord("emit", env => print(env.popi.toChar)),
     //
     // Compiler words
-//    CompilerWord(
-//      ":",
-//      { (env, r) =>
-//        consumeChars(r)
-//      },
-//    ),
+    CompilerWord(
+      ":",
+      { (env, r) =>
+        consumeChars(r) match
+          case Left(r) => r.error("unclosed definition")
+          case Right((r, s)) =>
+            env.openDefinition(s)
+            r
+      },
+    ),
+    CompileModeWord(
+      ";",
+      { (env, r) =>
+        env.closeDefinition()
+        r
+      },
+    ),
   )

@@ -36,6 +36,11 @@ case class CompilerWord(name: String, action: (Env, CharReader) => CharReader) e
 
   def run(env: Env, r: CharReader): CharReader = action(env, r)
 
+case class CompileModeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
+  def compile(env: Env, r: CharReader): CharReader = action(env, r)
+
+  def run(env: Env, r: CharReader): CharReader = r.error("not allowed here")
+
 case class NumberWord(name: String) extends SimpleWord:
   val n: Int = name.toInt
 

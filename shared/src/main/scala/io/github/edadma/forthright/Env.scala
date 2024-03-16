@@ -1,5 +1,6 @@
 package io.github.edadma.forthright
 
+import scala.collection.immutable.ArraySeq
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.language.postfixOps
@@ -13,7 +14,7 @@ class Env:
   val dictionary = new mutable.LinkedHashMap[String, Word]
   var buf = new ListBuffer[Word]
   var word: String = null
-  var mode = Mode.Run
+  var mode: Mode = Mode.Run
   var pc: Int = 0
 
   def pop: Any = dataStack.pop
@@ -33,6 +34,11 @@ class Env:
   def openDefinition(name: String): Unit =
     word = name
     buf.clear
+    mode = Mode.Compile
+
+  def closeDefinition(): Unit =
+    mode = Mode.Run
+    dictionary(word) = Definition(word, buf to ArraySeq)
 
   def addToDefinition(w: Word): Unit = buf += w
 
