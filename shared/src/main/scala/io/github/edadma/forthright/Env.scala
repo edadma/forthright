@@ -43,7 +43,7 @@ class Env:
   def addToDictionary(words: Seq[Word]): Unit = dictionary ++= words.map(w => w.name -> w)
 
   def openDefinition(name: String): Unit =
-    word = name
+    word = name.toUpperCase
     buf.clear
     mode = Mode.Compile
 

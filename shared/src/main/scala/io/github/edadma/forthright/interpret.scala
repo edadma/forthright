@@ -36,7 +36,7 @@ def interpret(env: Env, input: CharReader): Unit =
     case Right((r1, s)) =>
       val w =
         if s.forall(_.isDigit) then NumberWord(s)
-        else env.dictionary.getOrElse(s, r.error("word not found"))
+        else env.dictionary.getOrElse(s.toUpperCase, r.error("word not found"))
       val r2 =
         env.mode match
           case Mode.Run =>

@@ -7,12 +7,11 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-      |: nl 10 emit ;
-      |: n 123 . nl ;
-      |: p ." asdf" nl ;
+      |: n 123 . cr ;
+      |: p ." asdf" cr ;
       |n p
-      |." zxcv" nl
-      |3 4 + . nl
+      |." zxcv" cr
+      |3 4 + . cr
       |""".stripMargin
 
   interpret(env, CharReader.fromString(input))
