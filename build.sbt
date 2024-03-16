@@ -36,6 +36,7 @@ lazy val forthright = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jvmSettings(
     libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.1.0" % "provided",
+    libraryDependencies += "org.jline" % "jline" % "3.25.1",
   )
   .nativeSettings(
     nativeLinkStubs := true,
