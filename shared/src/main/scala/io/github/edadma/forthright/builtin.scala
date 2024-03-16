@@ -66,7 +66,7 @@ val builtin =
             env.dictionary.getOrElse(s.toUpperCase, r1.error("word not found")) match
               case Definition(name, definition) =>
                 println(s": $name ${definition map (_.name) mkString " "} ;")
-              case w => r1.error("not a user-defined word")
+              case _ => r1.error("not a user-defined word")
             r2
       },
     ),
