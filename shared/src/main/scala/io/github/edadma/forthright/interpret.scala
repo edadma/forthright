@@ -32,7 +32,7 @@ def consumeChars(input: CharReader): Either[CharReader, (CharReader, String)] =
 @tailrec
 def interpret(env: Env, input: CharReader): Unit =
   consumeChars(input) match
-    case Left(r) =>
+    case Left(_) =>
     case Right((r, s)) =>
       val r1 =
         if s.forall(_.isDigit) then
@@ -44,7 +44,7 @@ def interpret(env: Env, input: CharReader): Unit =
             case Some(w) =>
               env.mode match
                 case Mode.Run =>
-                  w.run(env)
+                  w.run(env, r)
                   r
                 case Mode.Compile => w.compile(env, r)
 
