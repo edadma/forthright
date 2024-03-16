@@ -12,6 +12,7 @@ val builtin =
     NucleusWord("DROP", env => env.pop),
     NucleusWord("SWAP", env => env.pushAll(env npop 2 reverse)),
     NucleusWord("ROT", env => env.pushAll(env.npop(2) :+ env.pop)),
+    NucleusWord("ROLL", env => env.pushAll(env.npop(env.popp - 1) :+ env.pop)),
     NucleusWord("OVER", env => env.push(env.dataStack(1))),
     NucleusWord("PICK", env => env.push(env.dataStack(env.popp - 1))),
     NucleusWord(".", env => print(number(env.popn))),

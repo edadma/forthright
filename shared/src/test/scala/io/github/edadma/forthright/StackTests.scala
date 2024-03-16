@@ -11,6 +11,7 @@ class StackTests extends AnyFreeSpec with Matchers with Tests {
   "over" in { stack("n1 n2 over") shouldBe stack("n1 n2 n1") }
   "swap" in { stack("n1 n2 swap") shouldBe stack("n2 n1") }
   "pick" in { stack("n1 n2 n3 3 pick") shouldBe stack("n1 n2 n3 n1") }
+  "roll" in { stack("n1 n2 n3 3 roll") shouldBe stack("n2 n3 n1") }
 
   "+" in { stack("3 4 +") shouldBe stack("7") }
   "-" in { stack("3 4 -") shouldBe stack("-1") }
