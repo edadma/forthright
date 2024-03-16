@@ -13,5 +13,6 @@ class StackTests extends AnyFreeSpec with Matchers with Tests {
   "+" in { stack("3 4 +") shouldBe stack("7") }
   "-" in { stack("3 4 -") shouldBe stack("-1") }
   "*" in { stack("3 4 *") shouldBe stack("12") }
+  "/" in { stack("12 4 /") shouldBe stack("3") }
 
 }
