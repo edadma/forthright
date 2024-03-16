@@ -16,6 +16,9 @@ import org.jline.terminal.TerminalBuilder
     .parser(parser)
     .build()
 
+  println("Forthright v0.0.1")
+  println
+
   while true do
     try {
       val line = reader.readLine("> ")
