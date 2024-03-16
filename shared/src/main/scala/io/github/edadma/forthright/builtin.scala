@@ -36,12 +36,16 @@ val builtin =
     new Word {
       val name = ".\""
 
-      def compile(env: Env, r: CharReader): CharReader = ???
+      def compile(env: Env, r: CharReader): CharReader =
+        val (r1, s) = consumeWhile(skipWhitespace(r), _ != '"')
+
+        env.addToDefinition(PrintWord(s))
+        r1.next
 
       def run(env: Env, r: CharReader): CharReader =
         val (r1, s) = consumeWhile(skipWhitespace(r), _ != '"')
 
         print(s)
-        skipWhitespace(r1.next)
+        r1.next
     },
   )

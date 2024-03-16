@@ -11,6 +11,6 @@ import pprint.pprintln
 //      |n
 //      |." asdf"
 //      |""".stripMargin
-  val input = """ ." asdf" """
+  val input = """ : p ." asdf" ; p """
 
   interpret(env, CharReader.fromString(input))
