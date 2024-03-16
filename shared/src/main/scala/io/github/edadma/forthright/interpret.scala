@@ -23,19 +23,22 @@ def consumeWhile(r: CharReader, pred: Char => Boolean): (CharReader, String) =
 
   consumeWhile(r)
 
-def consumeWord(r: CharReader): Either[CharReader, (CharReader, String)] =
-  if r.more then Right(consumeWhile(r, !_.isWhitespace))
+def consumeWord(r: CharReader): Either[CharReader, (CharReader, CharReader, String)] =
+  val r1 = skipWhitespace(r)
+
+  if r1.more then
+    val (end, s) = consumeWhile(r1, !_.isWhitespace)
+
+    Right((r1, end, s))
   else Left(r)
 
 def interpret(env: Env, input: String): Unit = interpret(env, CharReader.fromString(input))
 
 @tailrec
 def interpret(env: Env, input: CharReader): Unit =
-  val r = skipWhitespace(input)
-
-  consumeWord(r) match
+  consumeWord(input) match
     case Left(_) =>
-    case Right((r1, s)) =>
+    case Right((r, r1, s)) =>
       val w =
         if s.forall("-0123456789.eE" contains _) && s.exists(_.isDigit) then NumberWord(s)
         else env.lookup(s, r)

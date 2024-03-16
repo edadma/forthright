@@ -26,11 +26,9 @@ val builtin =
     RuntimeWord(
       ":",
       { (env, r) =>
-        val r1 = skipWhitespace(r)
-
-        consumeWord(r1) match
+        consumeWord(r) match
           case Left(r2) => r2.error("word name expected")
-          case Right((r2, s)) =>
+          case Right((r1, r2, s)) =>
             env.openDefinition(s)
             r2
       },
@@ -61,11 +59,9 @@ val builtin =
     RuntimeWord(
       "SEE",
       { (env, r) =>
-        val r1 = skipWhitespace(r)
-
-        consumeWord(r1) match
+        consumeWord(r) match
           case Left(r2) => r2.error("word name expected")
-          case Right((r2, s)) =>
+          case Right((r1, r2, s)) =>
             env.lookup(s, r1) match
               case Definition(name, definition) =>
                 println(s": $name ${definition map (_.name) mkString " "} ;")
