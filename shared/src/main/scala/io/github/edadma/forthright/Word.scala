@@ -55,7 +55,7 @@ case class CompileTimeWord(name: String, action: (Env, CharReader) => CharReader
   def run(env: Env, r: CharReader): CharReader = r.error("not allowed here")
 
 case class NumberWord(name: String) extends SimpleWord:
-  val n: Int = name.toInt
+  val n: Double = name.toDouble
 
   def run(env: Env, r: CharReader): CharReader =
     env push n
