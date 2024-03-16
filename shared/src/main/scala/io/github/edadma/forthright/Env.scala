@@ -36,14 +36,16 @@ class Env:
 
   def pushAll(elems: scala.collection.IterableOnce[Any]): Unit = dataStack.pushAll(elems)
 
-  infix def npop(n: Int): Seq[Any] = (1 to n) map (_ => pop) reverse
+  infix def npop[T](n: Int): Seq[T] = ((1 to n) map (_ => pop)).asInstanceOf[Seq[T]] reverse
 
-  infix def npopn(n: Int): Seq[Int] = ((1 to n) map (_ => pop) reverse).asInstanceOf[Seq[Int]]
+  infix def npopn(n: Int): Seq[Int] = npop[Int](n)
 
-  infix def execn2(action: (Int, Int) => Any): Any =
-    val Seq(a, b) = npopn(2)
+  infix def exec2[T](action: (T, T) => Any): Any =
+    val Seq(a, b) = npop[T](2)
 
     action(a, b)
+
+  infix def execn2(action: (Int, Int) => Any): Any = exec2[Int](action)
 
   def addToDictionary(words: Seq[Word]): Unit = dictionary ++= words.map(w => w.name -> w)
 

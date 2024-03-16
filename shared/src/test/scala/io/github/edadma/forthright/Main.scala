@@ -11,9 +11,6 @@ import pprint.pprintln
       |n p
       |." zxcv" cr
       |3 4 + . cr
-      |3 4 - .
       |""".stripMargin
 
   interpret(env, input)
-  pprintln(env.dataStack)
-  pprintln(env.dataStack.toSeq.reverse)
