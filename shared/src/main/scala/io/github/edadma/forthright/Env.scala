@@ -1,5 +1,7 @@
 package io.github.edadma.forthright
 
+import io.github.edadma.char_reader.CharReader
+
 import scala.collection.immutable.ArraySeq
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -16,9 +18,14 @@ class Env:
   var word: String = null
   var mode: Mode = Mode.Run
   var pc: Int = 0
+  var pos: CharReader = null
+
+  def error(msg: String): Nothing =
+    if pos eq null then sys.error(msg)
+    else pos.error(msg)
 
   def pop: Any =
-    if dataStack.isEmpty then sys.error("empty data stack")
+    if dataStack.isEmpty then error("empty data stack")
     else dataStack.pop
 
   def popi: Int = dataStack.pop.asInstanceOf[Int]

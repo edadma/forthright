@@ -26,7 +26,17 @@ case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWo
     env.pc = 0
 
     while env.pc < definition.length do
-      definition(env.pc).run(env, null)
+      val word =
+        definition(env.pc) match
+          case WrappedWord(pos, word) =>
+            println(word.name)
+            env.pos = pos
+            word
+          case word =>
+            env.pos = null
+            word
+
+      word.run(env, null)
       env.pc += 1
 
     r
@@ -54,3 +64,10 @@ case class PrintWord(s: String) extends SimpleWord:
   override def run(env: Env, r: CharReader): CharReader =
     print(s)
     r
+
+case class WrappedWord(pos: CharReader, word: Word) extends Word:
+  val name: String = word.name
+
+  def compile(env: Env, r: CharReader): CharReader = word.compile(env, r)
+
+  def run(env: Env, r: CharReader): CharReader = word.run(env, r)
