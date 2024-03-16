@@ -38,7 +38,7 @@ def interpret(env: Env, input: CharReader): Unit =
     case Right((r1, s)) =>
       val w =
         if s.forall("-0123456789.eE" contains _) && s.exists(_.isDigit) then NumberWord(s)
-        else env.dictionary.getOrElse(s.toUpperCase, r.error("word not found"))
+        else env.lookup(s, r)
       val r2 =
         env.mode match
           case Mode.Run =>

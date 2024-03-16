@@ -60,4 +60,6 @@ class Env:
 
   def addToDefinition(w: Word): Unit = buf += w
 
+  def lookup(s: String, pos: CharReader): Word = dictionary.getOrElse(s.toUpperCase, pos.error("word not found"))
+
   addToDictionary(builtin)
