@@ -43,9 +43,7 @@ def interpret(env: Env, input: CharReader): Unit =
             case None => r.error("word not found")
             case Some(w) =>
               env.mode match
-                case Mode.Run =>
-                  w.run(env, r)
-                  r
+                case Mode.Run     => w.run(env, r)
                 case Mode.Compile => w.compile(env, r)
 
       interpret(env, skipWhitespace(r1))
