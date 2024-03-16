@@ -12,5 +12,10 @@ val builtin =
     NucleusWord("emit", env => print(env.popi.toChar)),
     //
     // Compiler words
-//    CompilerWord(":"),
+//    CompilerWord(
+//      ":",
+//      { (env, r) =>
+//        consumeChars(r)
+//      },
+//    ),
   )

@@ -31,9 +31,14 @@ case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWo
 
     r
 
-case class CompilerWord(name: String, action: Env => Unit) extends Word:
+case class CompilerWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
   def compile(env: Env, r: CharReader): CharReader = r.error("not allowed here")
 
+  def run(env: Env, r: CharReader): CharReader = action(env, r)
+
+case class NumberWord(name: String) extends SimpleWord:
+  val n: Int = name.toInt
+
   def run(env: Env, r: CharReader): CharReader =
-    action(env)
+    env push n
     r
