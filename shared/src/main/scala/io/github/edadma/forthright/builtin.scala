@@ -1,5 +1,7 @@
 package io.github.edadma.forthright
 
+import io.github.edadma.char_reader.CharReader
+
 import scala.language.postfixOps
 
 val builtin =
@@ -15,11 +17,13 @@ val builtin =
     CompilerWord(
       ":",
       { (env, r) =>
-        consumeChars(r) match
-          case Left(r) => r.error("unclosed definition")
-          case Right((r, s)) =>
+        val r1 = skipWhitespace(r)
+
+        consumeChars(r1) match
+          case Left(r2) => r1.error("unclosed definition")
+          case Right((r2, s)) =>
             env.openDefinition(s)
-            r
+            r2
       },
     ),
     CompileModeWord(
@@ -29,4 +33,15 @@ val builtin =
         r
       },
     ),
+    new Word {
+      val name = ".\""
+
+      def compile(env: Env, r: CharReader): CharReader = ???
+
+      def run(env: Env, r: CharReader): CharReader =
+        val (r1, s) = consumeWhile(skipWhitespace(r), _ != '"')
+
+        print(s)
+        skipWhitespace(r1.next)
+    },
   )

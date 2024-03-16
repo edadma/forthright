@@ -47,3 +47,10 @@ case class NumberWord(name: String) extends SimpleWord:
   def run(env: Env, r: CharReader): CharReader =
     env push n
     r
+
+case class PrintWord(s: String) extends SimpleWord:
+  val name = s"""." s""""
+
+  override def run(env: Env, r: CharReader): CharReader =
+    print(s)
+    r
