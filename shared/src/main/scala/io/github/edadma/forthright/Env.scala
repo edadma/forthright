@@ -44,6 +44,8 @@ class Env:
 
   def push(a: Any, b: Any, c: Any*): Unit = dataStack.push(a, b, c*)
 
+  infix def pushn(n: Number): Unit = push(n.doubleValue)
+
   def pushAll(elems: scala.collection.IterableOnce[Any]): Unit = dataStack.pushAll(elems)
 
   infix def npop[T](n: Int): Seq[T] = ((1 to n) map (_ => pop)).asInstanceOf[Seq[T]] reverse
