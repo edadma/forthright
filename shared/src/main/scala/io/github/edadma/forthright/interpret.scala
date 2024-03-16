@@ -5,8 +5,7 @@ import io.github.edadma.char_reader.CharReader
 import scala.annotation.tailrec
 
 @tailrec
-def skipWhile(r: CharReader, pred: Char => Boolean): CharReader =
-  if pred(r.ch) then skipWhile(r.next, pred) else r
+def skipWhile(r: CharReader, pred: Char => Boolean): CharReader = if pred(r.ch) then skipWhile(r.next, pred) else r
 
 def skipWhitespace(r: CharReader): CharReader = skipWhile(r, _.isWhitespace)
 
