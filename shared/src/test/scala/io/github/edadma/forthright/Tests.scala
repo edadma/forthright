@@ -1,17 +1,11 @@
 package io.github.edadma.forthright
 
-import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.should.Matchers
+import scala.collection.mutable
 
-class Tests extends AnyFreeSpec with Matchers {
+trait Tests:
+  def stack(test: String): mutable.Stack[Any] =
+    val env = new Env
 
-  "test" in {
-    List(1, 2, 3) mkString "\n" shouldBe
-      """
-        |1
-        |2
-        |3
-        """.trim.stripMargin
-  }
-
-}
+    interpret(env, ": n1 3 ; : n2 4 ; : n3 5 ;")
+    interpret(env, test)
+    env.dataStack

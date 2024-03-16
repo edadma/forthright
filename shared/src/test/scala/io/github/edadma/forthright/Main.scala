@@ -1,6 +1,5 @@
 package io.github.edadma.forthright
 
-import io.github.edadma.char_reader.CharReader
 import pprint.pprintln
 
 @main def run(): Unit =
@@ -12,6 +11,9 @@ import pprint.pprintln
       |n p
       |." zxcv" cr
       |3 4 + . cr
+      |3 4 5
       |""".stripMargin
 
-  interpret(env, CharReader.fromString(input))
+  interpret(env, input)
+  pprintln(env.dataStack)
+  pprintln(env.dataStack.toSeq.reverse)

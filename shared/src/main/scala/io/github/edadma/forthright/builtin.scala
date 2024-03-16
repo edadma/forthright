@@ -10,6 +10,7 @@ val builtin =
     // Nucleus words
     NucleusWord("DUP", env => env push env.dataStack.top),
     NucleusWord("SWAP", env => env.pushAll(env npop 2 reverse)),
+    NucleusWord("ROT", env => env.pushAll(env.npop(2) :+ env.pop)),
     NucleusWord("OVER", env => env.push(env.dataStack(1))),
     NucleusWord("PICK", env => env.push(env.dataStack(env.popi - 1))),
     NucleusWord(".", env => print(env.pop)),

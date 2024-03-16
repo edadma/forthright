@@ -27,6 +27,8 @@ def consumeChars(r: CharReader): Either[CharReader, (CharReader, String)] =
   if r.more then Right(consumeWhile(r, !_.isWhitespace))
   else Left(r)
 
+def interpret(env: Env, input: String): Unit = interpret(env, CharReader.fromString(input))
+
 @tailrec
 def interpret(env: Env, input: CharReader): Unit =
   val r = skipWhitespace(input)
