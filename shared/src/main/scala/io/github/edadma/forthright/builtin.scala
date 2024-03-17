@@ -109,13 +109,11 @@ val builtin =
         if env.dataStack.isEmpty then env.error("THEN without corresponding IF")
 
         env.pop match
-          case ConditionalBackpatch(idx) =>
-            env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
-            env.addToDefinition(NoopWord("THEN"))
-          case Backpatch(idx) =>
-            env.buf(idx) = BranchWord("ELSE", env.buf.length)
-          case _ => env.error("THEN without corresponding IF")
+          case ConditionalBackpatch(idx) => env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
+          case Backpatch(idx)            => env.buf(idx) = BranchWord("ELSE", env.buf.length)
+          case _                         => env.error("THEN without corresponding IF")
 
+        env.addToDefinition(NoopWord("THEN"))
         r
       },
     ),

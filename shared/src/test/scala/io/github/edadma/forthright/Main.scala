@@ -6,7 +6,7 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    : a false if ." true" cr then ." done" cr ;
+    : a true if ." true" cr else ." false" cr then ." done" cr ;
     a
     see a
     """
