@@ -95,9 +95,9 @@ val builtin =
 
         env.pop match
           case ConditionalBackpatch(idx) =>
-            env.addToDefinition(null)
+            env push Backpatch(env.buf.length)
             env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
-            env push null
+            env.addToDefinition(null)
           case _ => env.error("ELSE without corresponding IF")
 
         r
