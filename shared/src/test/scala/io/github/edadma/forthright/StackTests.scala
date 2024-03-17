@@ -49,3 +49,6 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "min 1" in { stack("3 4 min") shouldBe stack("3") }
   "min 2" in { stack("4 3 min") shouldBe stack("3") }
   "min 3" in { stack("3 3 min") shouldBe stack("3") }
+  "max 1" in { stack("3 4 max") shouldBe stack("4") }
+  "max 2" in { stack("4 3 max") shouldBe stack("4") }
+  "max 3" in { stack("3 3 max") shouldBe stack("3") }

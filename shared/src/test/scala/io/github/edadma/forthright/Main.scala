@@ -10,6 +10,7 @@ import pprint.pprintln
     a
     see a
     see 2dup
+    see min
     """
   env.trace = true
   env.interpret(input)
