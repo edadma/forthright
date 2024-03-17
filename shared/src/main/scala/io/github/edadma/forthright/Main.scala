@@ -24,7 +24,7 @@ import org.jline.terminal.TerminalBuilder
     try {
       val line = reader.readLine("> ")
 
-      interpret(env, line)
+      env.interpret(line)
       println
     } catch {
       case _: UserInterruptException => // Ignore

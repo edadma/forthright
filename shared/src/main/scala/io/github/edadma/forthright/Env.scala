@@ -66,6 +66,7 @@ class Env:
           execute()
         case Return.Done => debug(s"<< returning from $word")
         case _           => error("return stack cluttered")
+  end execute
 
   def error(msg: String): Nothing =
     if pos eq null then sys.error(msg)
@@ -125,5 +126,29 @@ class Env:
   def addToDefinition(w: Word): Unit = buf += w
 
   def lookup(s: String, pos: CharReader): Word = dictionary.getOrElse(s.toUpperCase, pos.error("word not found"))
+
+  def interpret(input: String): Unit = interpret(CharReader.fromString(input))
+
+  @tailrec
+  final def interpret(input: CharReader): Unit =
+    consumeWord(input) match
+      case Left(_) =>
+      case Right((r, r1, s)) =>
+        val w =
+          if s.forall("-0123456789.eE" contains _) && s.exists(_.isDigit) then NumberWord(s)
+          else lookup(s, r)
+        val r2 =
+          mode match
+            case Mode.Run =>
+              pos = r
+
+              val r2 = w.run(this, r, r1)
+
+              pos = null
+              r2
+            case Mode.Compile => w.compile(this, r, r1)
+
+        interpret(skipWhitespace(r2))
+  end interpret
 
   addToDictionary(builtin)

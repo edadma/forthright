@@ -11,4 +11,4 @@ import pprint.pprintln
     """
 
   env.trace = true
-  interpret(env, input)
+  env.interpret(input)
