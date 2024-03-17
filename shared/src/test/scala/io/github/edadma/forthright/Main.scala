@@ -6,8 +6,7 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    : a 3 1 do i . cr loop ;
-    a
+    ." -" 2 SPACES ." -"
     """
-  env.trace = true
+  // env.trace = true
   env.interpret(input)

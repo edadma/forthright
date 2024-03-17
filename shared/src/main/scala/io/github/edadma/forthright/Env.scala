@@ -172,4 +172,5 @@ class Env:
       |: MIN ( n1 n2 -- n ) 2DUP < IF DROP ELSE SWAP DROP THEN ;
       |: MAX ( n1 n2 -- n ) 2DUP > IF DROP ELSE SWAP DROP THEN ;
       |: ABS ( n -- |n| ) DUP 0< IF NEGATE THEN ;
+      |: SPACES ( n -- ) 0 DO SPACE LOOP ;
       |""".stripMargin)
