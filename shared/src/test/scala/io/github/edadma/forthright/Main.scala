@@ -11,7 +11,7 @@ import pprint.pprintln
     see a
     see 2dup
     see min
-    3 4 < .
+    3 0< .
     """
   env.trace = true
   env.interpret(input)

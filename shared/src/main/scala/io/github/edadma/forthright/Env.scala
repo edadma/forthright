@@ -159,9 +159,9 @@ class Env:
   addToDictionary(builtin)
 
   interpret("""
-      |: 0< ( n -- flag ) 0 SWAP < ;
-      |: 0= ( n -- flag ) 0 SWAP = ;
-      |: 0> ( n -- flag ) 0 SWAP > ;
+      |: 0< ( n -- flag ) 0 < ;
+      |: 0= ( n -- flag ) 0 = ;
+      |: 0> ( n -- flag ) 0 > ;
       |: 1+ ( n -- n+1 ) 1 + ;
       |: 1- ( n -- n-1 ) 1 - ;
       |: 2+ ( n -- n+2 ) 2 + ;
