@@ -34,6 +34,7 @@ val builtin =
     NucleusWord(">=", env => env.push(env execn2 (_ >= _))),
     NucleusWord("=", env => env.push(env.exec2[Any](_ == _))),
     NucleusWord("<>", env => env.push(env.exec2[Any](_ != _))),
+    NucleusWord(".S", env => println(env.stack)),
     NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
     NucleusWord(
       "OR",

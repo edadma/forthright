@@ -9,5 +9,5 @@ import pprint.pprintln
     ." -" 2 SPACES ." -"
     see spaces
     """
-  // env.trace = true
+  env.trace = true
   env.interpret(input)
