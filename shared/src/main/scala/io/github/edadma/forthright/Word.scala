@@ -59,7 +59,7 @@ case class NumberWord(name: String) extends SimpleWord:
     r
 
 case class PrintWord(s: String) extends SimpleWord:
-  val name = s"""." s""""
+  val name = s"""." $s""""
 
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     print(s)
