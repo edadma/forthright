@@ -8,6 +8,9 @@ import pprint.pprintln
     """
     ." -" 2 SPACES ." -"
     see spaces
+    : asdf ." asdf" ;
+    asdf
+    words
     """
-  env.trace = true
+  // env.trace = true
   env.interpret(input)
