@@ -65,7 +65,11 @@ case class PrintWord(s: String) extends SimpleWord:
     print(s)
     r
 
-case class CommentWord(s: String) extends SimpleWord:
-  val name = s"( $s)"
-
+case class NoopWord(name: String) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader = r
+
+case class ConditionalBranchWord(name: String, idx: Int) extends SimpleWord:
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    if !env.popb then env.pc = idx
+
+    r

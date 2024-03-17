@@ -6,7 +6,7 @@ import io.github.edadma.forthright.Return.Pointer
 import scala.annotation.tailrec
 import scala.collection.immutable.ArraySeq
 import scala.collection.mutable
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scala.compiletime.uninitialized
 import scala.language.postfixOps
 import Console.*
@@ -18,11 +18,13 @@ enum Return:
   case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
 
+case class Backpatch(idx: Int)
+
 class Env:
   val dataStack = new mutable.Stack[Any]
   val returnStack = new mutable.Stack[Return]
   val dictionary = new mutable.LinkedHashMap[String, Word]
-  var buf = new ListBuffer[Word]
+  var buf = new ArrayBuffer[Word]
   var word: String = uninitialized
   var mode: Mode = Mode.Run
   var pos: CharReader = uninitialized
@@ -77,6 +79,8 @@ class Env:
     else dataStack.pop
 
   def popn: Double = pop.asInstanceOf[Double]
+
+  def popb: Boolean = pop.asInstanceOf[Boolean]
 
   def popi: Int =
     popn match

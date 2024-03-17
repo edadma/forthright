@@ -80,6 +80,28 @@ val builtin =
         r
       },
     ),
+    CompileTimeWord(
+      "IF",
+      { (env, r) =>
+        env push Backpatch(env.buf.length)
+        env.addToDefinition(null)
+        r
+      },
+    ),
+    CompileTimeWord(
+      "THEN",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("THEN without corresponding IF")
+
+        env.pop match
+          case Backpatch(idx) =>
+            env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
+            env.addToDefinition(NoopWord("THEN"))
+          case _ => env.error("THEN without corresponding IF")
+
+        r
+      },
+    ),
     new Word {
       val name = ".\""
 
@@ -100,7 +122,7 @@ val builtin =
       def compile(env: Env, pos: CharReader, r: CharReader): CharReader =
         val (r1, s) = consumeWhile(skipWhitespace(r), _ != ')')
 
-        CommentWord(s).compile(env, pos, r1.next)
+        NoopWord(s"( $s)").compile(env, pos, r1.next)
 
       def run(env: Env, pos: CharReader, r: CharReader): CharReader =
         val r1 = skipWhile(skipWhitespace(r), _ != ')')
