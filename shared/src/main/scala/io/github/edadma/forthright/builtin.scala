@@ -25,6 +25,15 @@ val builtin =
     NucleusWord("*", env => env.push(env npopn 2 product)),
     NucleusWord("-", env => env.push(env execn2 (_ - _))),
     NucleusWord("/", env => env.push(env execn2 (_ / _))),
+    NucleusWord(
+      "OR",
+      env =>
+        env.push(env.exec2[Any]({
+          case (a: Boolean, b: Boolean)                         => a || b
+          case (a: Double, b: Double) if a.isWhole && b.isWhole => (a.toInt | b.toInt).toDouble
+          case (_, _)                                           => env.error("expected boolean or integer arguments")
+        })),
+    ),
     //
     // Compiler words
     RuntimeWord(
@@ -60,6 +69,8 @@ val builtin =
     },
     //
     // non Forth-79 words
+    NucleusWord("TRUE", _ push true),
+    NucleusWord("FALSE", _ push false),
     RuntimeWord(
       "SEE",
       { (env, r) =>

@@ -22,4 +22,10 @@ class StackTests extends AnyFreeSpec with Matchers with Tests {
   "* decimals" in { stack("3 .5 *") shouldBe stack("1.5") }
   "/" in { stack("12 4 /") shouldBe stack("3") }
 
+  "or, boolean 1" in { stack("true false or") shouldBe stack("true") }
+  "or, boolean 2" in { stack("false false or") shouldBe stack("false") }
+  "or, boolean 3" in { stack("true true or") shouldBe stack("true") }
+  "or, boolean 4" in { stack("false true or") shouldBe stack("true") }
+  "or, numeric" in { stack("5 3 or") shouldBe stack("7") }
+
 }
