@@ -78,3 +78,22 @@ case class BranchWord(name: String, idx: Int) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     env.pc = idx
     r
+
+case object DoWord extends SimpleWord:
+  val name = "DO"
+
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env.returnStack push Return.Loop(env.popn, env.popn)
+    r
+
+case class LoopWord(name: String, idx: Int, offset: Env => Double) extends SimpleWord:
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    val loop @ Return.Loop(index, end) = env.returnStack.top: @unchecked
+    val disp = offset(env)
+    val newIndex = index + disp
+
+    if disp > 0 && newIndex < end || disp < 0 && newIndex > end then
+      env.pc = idx
+      loop.index = newIndex
+
+    r

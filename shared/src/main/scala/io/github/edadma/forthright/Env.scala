@@ -17,9 +17,11 @@ enum Mode:
 enum Return:
   case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
+  case Loop(var index: Double, end: Double)
 
 case class ConditionalBackpatch(idx: Int)
 case class Backpatch(idx: Int)
+case class Do(idx: Int)
 
 class Env:
   val dataStack = new mutable.Stack[Any]
