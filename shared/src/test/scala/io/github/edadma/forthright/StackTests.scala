@@ -3,8 +3,7 @@ package io.github.edadma.forthright
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 
-class StackTests extends AnyFreeSpec with Matchers with Tests {
-
+class StackTests extends AnyFreeSpec with Matchers with Tests:
   "dup" in { stack("n1 dup") shouldBe stack("n1 n1") }
   "?dup yes" in { stack("n ?dup") shouldBe stack("n n") }
   "?dup no" in { stack("0 ?dup") shouldBe stack("0") }
@@ -36,4 +35,3 @@ class StackTests extends AnyFreeSpec with Matchers with Tests {
 
   "not, boolean 1" in { stack("true not") shouldBe stack("false") }
   "not, boolean 2" in { stack("false not") shouldBe stack("true") }
-}
