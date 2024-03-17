@@ -16,7 +16,6 @@ def consumeWhile(r: CharReader, pred: Char => Boolean): (CharReader, String) =
   def consumeWhile(r: CharReader): (CharReader, String) =
     if pred(r.ch) && r.more then
       buf += r.ch
-
       consumeWhile(r.next)
     else (r, buf.toString)
 
