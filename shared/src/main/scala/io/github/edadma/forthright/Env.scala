@@ -159,13 +159,13 @@ class Env:
   addToDictionary(builtin)
 
   interpret("""
-      |: 0< 0 < ;
-      |: 0= 0 = ;
-      |: 0> 0 > ;
-      |: 1+ 1 + ;
-      |: 1- 1 - ;
-      |: 2+ 2 + ;
-      |: 2- 2 - ;
+      |: 0< ( n -- flag ) 0 SWAP < ;
+      |: 0= ( n -- flag ) 0 SWAP = ;
+      |: 0> ( n -- flag ) 0 SWAP > ;
+      |: 1+ ( n -- n+1 ) 1 + ;
+      |: 1- ( n -- n-1 ) 1 - ;
+      |: 2+ ( n -- n+2 ) 2 + ;
+      |: 2- ( n -- n-2 ) 2 - ;
       |: 2DUP ( n1 n2 -- n1 n2 n1 n2 ) OVER OVER ;
       |: MIN ( n1 n2 -- n ) 2DUP < IF DROP ELSE SWAP DROP THEN ;
       |: MAX ( n1 n2 -- n ) 2DUP > IF DROP ELSE SWAP DROP THEN ;
