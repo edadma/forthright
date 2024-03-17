@@ -39,3 +39,8 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
 
   "not, boolean 1" in { stack("true not") shouldBe stack("false") }
   "not, boolean 2" in { stack("false not") shouldBe stack("true") }
+
+  "if 1" in { stack(": a true if 3 then 4 ; a") shouldBe stack("3 4") }
+  "if 2" in { stack(": a false if 3 then 4 ; a") shouldBe stack("4") }
+  "if 3" in { stack(": a true if 3 else 4 then 5 ; a") shouldBe stack("3 5") }
+  "if 4" in { stack(": a false if 3 else 4 then 5 ; a") shouldBe stack("4 5") }
