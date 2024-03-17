@@ -6,11 +6,13 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-      |: n 123 . cr ;
-      |: p ." asdf" cr ;
-      |n p
-      |." zxcv" cr
-      |3 4 + . cr
-      |""".stripMargin
+    : n 123 . cr ;
+    : p ." asdf" cr ;
+    n p
+    : w n p ." done" cr ;
+    3 4 + . cr
+    w
+    ." zxcv" cr
+    """
 
   interpret(env, input)

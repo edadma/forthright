@@ -36,12 +36,8 @@ case class NucleusWord(name: String, action: Env => Unit) extends SimpleWord:
 
 case class Definition(name: String, definition: ArraySeq[Word]) extends SimpleWord:
   def run(env: Env, r: CharReader): CharReader =
-    env.pc = 0
-
-    while env.pc < definition.length do
-      definition(env.pc).run(env, null)
-      env.pc += 1
-
+    env.returnStack push Return.Done
+    env.call(definition)
     r
 
 case class RuntimeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:

@@ -1,7 +1,9 @@
 package io.github.edadma.forthright
 
 import io.github.edadma.char_reader.CharReader
+import io.github.edadma.forthright.Return.Pointer
 
+import scala.annotation.tailrec
 import scala.collection.immutable.ArraySeq
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -10,15 +12,47 @@ import scala.language.postfixOps
 enum Mode:
   case Run, Compile
 
+enum Return:
+  case Pointer(caller: ArraySeq[Word], idx: Int)
+  case Done
+
 class Env:
   val dataStack = new mutable.Stack[Any]
-  val returnStack = new mutable.Stack[Any]
+  val returnStack = new mutable.Stack[Return]
   val dictionary = new mutable.LinkedHashMap[String, Word]
   var buf = new ListBuffer[Word]
   var word: String = null
   var mode: Mode = Mode.Run
-  var pc: Int = 0
   var pos: CharReader = null
+  var pc: Int = 0
+  var code: ArraySeq[Word] = null
+
+  def call(definition: ArraySeq[Word]): Unit =
+    code = definition
+    pc = 0
+    execute()
+
+  @tailrec
+  final def execute(): Unit =
+    if pc < code.length then
+      code(pc) match
+        case Definition(_, definition) =>
+          returnStack push Pointer(code, pc + 1)
+          code = definition
+          pc = 0
+        case w =>
+          w.run(this, null)
+          pc += 1
+
+      execute()
+    else
+      returnStack.pop match
+        case Return.Pointer(caller, idx) =>
+          code = caller
+          pc = idx
+          execute()
+        case Return.Done =>
+        case _           => error("return stack cluttered")
 
   def error(msg: String): Nothing =
     if pos eq null then sys.error(msg)
