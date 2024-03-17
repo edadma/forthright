@@ -36,7 +36,7 @@ case class NucleusWord(name: String, action: Env => Unit) extends SimpleWord:
 
 case class DefinedWord(name: String, definition: ArraySeq[Word]) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
-    env.debug(pos.longErrorText(s">> calling $name"))
+    env.debug(pos.longErrorText(s">> calling $name").trim)
     env.word = name
     env.call(definition)
     r

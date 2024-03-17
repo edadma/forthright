@@ -31,7 +31,11 @@ class Env:
   var trace = false
 
   def debug(msg: String): Unit =
-    if trace then println(s"$GREEN$msg$RESET")
+    if trace then
+      println(s"$GREEN$msg")
+      println(
+        s"${dataStack map display reverse}$RESET",
+      )
 
   def call(definition: ArraySeq[Word]): Unit =
     returnStack push Return.Done
