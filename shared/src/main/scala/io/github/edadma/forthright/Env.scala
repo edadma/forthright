@@ -7,6 +7,7 @@ import scala.annotation.tailrec
 import scala.collection.immutable.ArraySeq
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.compiletime.uninitialized
 import scala.language.postfixOps
 
 enum Mode:
@@ -21,11 +22,11 @@ class Env:
   val returnStack = new mutable.Stack[Return]
   val dictionary = new mutable.LinkedHashMap[String, Word]
   var buf = new ListBuffer[Word]
-  var word: String = null
+  var word: String = uninitialized
   var mode: Mode = Mode.Run
-  var pos: CharReader = null
+  var pos: CharReader = uninitialized
   var pc: Int = 0
-  var code: ArraySeq[Word] = null
+  var code: ArraySeq[Word] = uninitialized
 
   def call(definition: ArraySeq[Word]): Unit =
     code = definition
