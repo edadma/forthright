@@ -25,6 +25,13 @@ val builtin =
     NucleusWord("*", env => env.push(env npopn 2 product)),
     NucleusWord("-", env => env.push(env execn2 (_ - _))),
     NucleusWord("/", env => env.push(env execn2 (_ / _))),
+    NucleusWord("<", env => env.push(env execn2 (_ < _))),
+    NucleusWord(">", env => env.push(env execn2 (_ > _))),
+    NucleusWord("<=", env => env.push(env execn2 (_ <= _))),
+    NucleusWord(">=", env => env.push(env execn2 (_ >= _))),
+    NucleusWord("=", env => env.push(env.exec2[Any](_ == _))),
+    NucleusWord("!=", env => env.push(env.exec2[Any](_ != _))),
+    NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
     NucleusWord(
       "OR",
       env =>
