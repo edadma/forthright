@@ -193,6 +193,7 @@ val builtin =
     // non Forth-79 words
     NucleusWord("TRUE", _ push true),
     NucleusWord("FALSE", _ push false),
+    NucleusWord("NULL", _ push null),
     RuntimeWord(
       "SEE",
       { (env, r) =>
