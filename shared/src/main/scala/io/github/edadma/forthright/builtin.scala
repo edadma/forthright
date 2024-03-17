@@ -25,6 +25,7 @@ val builtin =
     NucleusWord("*", env => env.push(env npopn 2 product)),
     NucleusWord("-", env => env.push(env execn2 (_ - _))),
     NucleusWord("/", env => env.push(env execn2 (_ / _))),
+    NucleusWord("MOD", env => env.push(env execn2 (_ % _))),
     NucleusWord("<", env => env.push(env execn2 (_ < _))),
     NucleusWord(">", env => env.push(env execn2 (_ > _))),
     NucleusWord("<=", env => env.push(env execn2 (_ <= _))),
