@@ -68,3 +68,4 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "base 2" in { stack("hex 34") shouldBe stack("3 16 * 4 +") }
   "base 3" in { stack("octal 34") shouldBe stack("3 8 * 4 +") }
   "base 4" in { stack("binary 1010") shouldBe stack("10") }
+  "base 5" in { stack("5 base ! base @ 34") shouldBe stack("5 3 5 * 4 +") }
