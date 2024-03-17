@@ -6,11 +6,13 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    ." -" 2 SPACES ." -"
-    see spaces
-    : asdf ." asdf" ;
-    asdf
+    123 constant a
+    see a
+    : b a 1+ . cr ;
+    see b
+    b
     words
+    a .s
     """
   // env.trace = true
   env.interpret(input)

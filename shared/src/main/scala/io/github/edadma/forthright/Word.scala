@@ -98,3 +98,8 @@ case class LoopWord(name: String, idx: Int, offset: Env => Double) extends Simpl
     else env.returnStack.pop
 
     r
+
+case class ConstantWord(name: String, value: Any) extends SimpleWord:
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push value
+    r

@@ -83,6 +83,16 @@ val builtin =
         r
       },
     ),
+    RuntimeWord(
+      "CONSTANT",
+      { (env, r) =>
+        consumeWord(r) match
+          case Left(r2) => r2.error("word name expected")
+          case Right((r1, r2, s)) =>
+            env.addToDictionary(Seq(ConstantWord(s.toUpperCase, env.pop)))
+            r2
+      },
+    ),
     CompileTimeWord(
       "IF",
       { (env, r) =>
@@ -190,9 +200,9 @@ val builtin =
           case Left(r2) => r2.error("word name expected")
           case Right((r1, r2, s)) =>
             env.lookup(s, r1) match
-              case DefinedWord(name, definition) =>
-                println(s": $name ${definition map (_.name) mkString " "} ;")
-              case _ => r1.error("not a user-defined word")
+              case DefinedWord(name, definition) => println(s": $name ${definition map (_.name) mkString " "} ;")
+              case ConstantWord(name, value)     => println(s"${display(value)} CONSTANT $name")
+              case _                             => r1.error("not a user-defined word")
             r2
       },
     ),
