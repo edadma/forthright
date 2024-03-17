@@ -23,7 +23,8 @@ case class ConditionalBackpatch(idx: Int)
 case class Backpatch(idx: Int)
 case class Do(idx: Int)
 
-class Env:
+class Env extends Address:
+  var base: Double = 10
   val dataStack = new mutable.Stack[Any]
   val returnStack = new mutable.Stack[Return]
   val dictionary = new mutable.LinkedHashMap[String, Word]
@@ -34,6 +35,9 @@ class Env:
   var pc: Int = 0
   var code: ArraySeq[Word] = uninitialized
   var trace = false
+
+  def value: Any = base
+  def value_=(x: Any): Unit = base = x.asInstanceOf[Double]
 
   def stack: String = (dataStack map display).reverse mkString " "
 
@@ -136,6 +140,8 @@ class Env:
 
   def lookup(s: String, pos: CharReader): Word = dictionary.getOrElse(s.toUpperCase, pos.error("word not found"))
 
+  def defined(name: String): Boolean = dictionary.contains(name.toUpperCase)
+
   def interpret(input: String): Unit = interpret(CharReader.fromString(input))
 
   @tailrec
@@ -144,7 +150,8 @@ class Env:
       case Left(_) =>
       case Right((r, r1, s)) =>
         val w =
-          if s.forall("-0123456789.eE" contains _) && s.exists(_.isDigit) then NumberWord(s)
+          if s.forall("-0123456789.abcdefABCDEF" contains _) && s.exists(_.isDigit) && !defined(s) then
+            NumberWord(s, if base == 10 then s.toDouble else Integer.parseInt(s, base.toInt))
           else lookup(s, r)
         val r2 =
           mode match

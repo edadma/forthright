@@ -51,9 +51,7 @@ case class CompileTimeWord(name: String, action: (Env, CharReader) => CharReader
 
   def run(env: Env, pos: CharReader, r: CharReader): CharReader = r.error("not allowed here")
 
-case class NumberWord(name: String) extends SimpleWord:
-  val n: Double = name.toDouble
-
+case class NumberWord(name: String, n: Double) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     env push n
     r
@@ -106,7 +104,7 @@ case class ConstantWord(name: String, value: Any) extends SimpleWord:
 
 trait Address:
   def value: Any
-  def value_=(value: Any): Unit
+  def value_=(x: Any): Unit
 
 case class VariableWord(name: String) extends SimpleWord with Address:
   var value: Any = null

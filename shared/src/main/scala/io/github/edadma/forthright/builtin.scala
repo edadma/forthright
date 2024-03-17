@@ -38,6 +38,11 @@ val builtin =
     NucleusWord("WORDS", env => println(env.dictionary.keys.toList.reverse mkString " ")),
     NucleusWord("@", env => env push env.pop.asInstanceOf[Address].value),
     NucleusWord("!", env => env.pop.asInstanceOf[Address].value = env.pop),
+    NucleusWord("BASE", env => env push env),
+    NucleusWord("DECIMAL", _.base = 10),
+    NucleusWord("HEX", _.base = 16),
+    NucleusWord("OCTAL", _.base = 8),
+    NucleusWord("BINARY", _.base = 2),
     NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
     NucleusWord(
       "OR",
