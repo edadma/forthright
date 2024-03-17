@@ -36,6 +36,8 @@ val builtin =
     NucleusWord("<>", env => env.push(env.exec2[Any](_ != _))),
     NucleusWord(".S", env => println(env.stack)),
     NucleusWord("WORDS", env => println(env.dictionary.keys.toList.reverse mkString " ")),
+    NucleusWord("@", env => env push env.pop.asInstanceOf[Address].value),
+    NucleusWord("!", env => env.pop.asInstanceOf[Address].value = env.pop),
     NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
     NucleusWord(
       "OR",
@@ -88,8 +90,18 @@ val builtin =
       { (env, r) =>
         consumeWord(r) match
           case Left(r2) => r2.error("word name expected")
-          case Right((r1, r2, s)) =>
+          case Right((_, r2, s)) =>
             env.addToDictionary(Seq(ConstantWord(s.toUpperCase, env.pop)))
+            r2
+      },
+    ),
+    RuntimeWord(
+      "VARIABLE",
+      { (env, r) =>
+        consumeWord(r) match
+          case Left(r2) => r2.error("word name expected")
+          case Right((_, r2, s)) =>
+            env.addToDictionary(Seq(VariableWord(s.toUpperCase)))
             r2
       },
     ),
@@ -203,7 +215,9 @@ val builtin =
             env.lookup(s, r1) match
               case DefinedWord(name, definition) => println(s": $name ${definition map (_.name) mkString " "} ;")
               case ConstantWord(name, value)     => println(s"${display(value)} CONSTANT $name")
+              case v @ VariableWord(name)        => println(s"VARIABLE $name ( ${display(v.value)} )")
               case _                             => r1.error("not a user-defined word")
+
             r2
       },
     ),

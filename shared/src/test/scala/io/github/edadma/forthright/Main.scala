@@ -6,12 +6,14 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    123 constant a
+    variable a
     see a
-    : b a 1+ . cr ;
-    see b
-    b
     words
+    a .s
+    @ .s drop
+    123 a !
+    a @ . cr
+    see a
     a .s
     """
   // env.trace = true

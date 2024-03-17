@@ -103,3 +103,16 @@ case class ConstantWord(name: String, value: Any) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     env push value
     r
+
+trait Address:
+  def value: Any
+  def value_=(value: Any): Unit
+
+case class VariableWord(name: String) extends SimpleWord with Address:
+  var value: Any = null
+
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push this
+    r
+
+  override def toString: String = s"<address (variable '$name'): ${display(value)}>"
