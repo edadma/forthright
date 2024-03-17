@@ -6,12 +6,8 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    : a false if ." true" cr then ." done" cr ;
+    : a 3 1 do 3 . cr loop ;
     a
-    see a
-    see 2dup
-    see min
-    3 0< .
     """
   env.trace = true
   env.interpret(input)

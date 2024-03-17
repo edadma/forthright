@@ -95,5 +95,6 @@ case class LoopWord(name: String, idx: Int, offset: Env => Double) extends Simpl
     if disp > 0 && newIndex < end || disp < 0 && newIndex > end then
       env.pc = idx
       loop.index = newIndex
+    else env.returnStack.pop
 
     r
