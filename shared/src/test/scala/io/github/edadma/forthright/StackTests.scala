@@ -52,3 +52,6 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "max 1" in { stack("3 4 max") shouldBe stack("4") }
   "max 2" in { stack("4 3 max") shouldBe stack("4") }
   "max 3" in { stack("3 3 max") shouldBe stack("3") }
+  "abs 1" in { stack("3 abs") shouldBe stack("3") }
+  "abs 2" in { stack("-3 abs") shouldBe stack("3") }
+  "abs 3" in { stack("0 abs") shouldBe stack("0") }
