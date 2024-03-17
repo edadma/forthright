@@ -152,3 +152,13 @@ class Env:
   end interpret
 
   addToDictionary(builtin)
+
+  interpret("""
+      |: 0< 0 < ;
+      |: 0= 0 = ;
+      |: 0> 0 > ;
+      |: 1+ 1 + ;
+      |: 1- 1 - ;
+      |: 2+ 2 + ;
+      |: 2- 2 - ;
+      |""".stripMargin)

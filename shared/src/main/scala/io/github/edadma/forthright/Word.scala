@@ -64,3 +64,8 @@ case class PrintWord(s: String) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     print(s)
     r
+
+case class CommentWord(s: String) extends SimpleWord:
+  val name = s"( $s)"
+
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader = r

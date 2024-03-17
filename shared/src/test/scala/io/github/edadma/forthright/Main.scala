@@ -6,8 +6,10 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    : add + ;
+    : add + ( asdf) ;
     3 4 add . cr
+    ( asdf)
+    ." zxcv" cr
     """
 
   env.trace = true

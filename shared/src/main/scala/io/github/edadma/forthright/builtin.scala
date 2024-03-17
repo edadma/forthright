@@ -92,6 +92,19 @@ val builtin =
         print(s)
         r1.next
     },
+    new Word {
+      val name = "("
+
+      def compile(env: Env, pos: CharReader, r: CharReader): CharReader =
+        val (r1, s) = consumeWhile(skipWhitespace(r), _ != ')')
+
+        CommentWord(s).compile(env, pos, r1.next)
+
+      def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+        val r1 = skipWhile(skipWhitespace(r), _ != ')')
+
+        r1.next
+    },
     //
     // non Forth-79 words
     NucleusWord("TRUE", _ push true),
