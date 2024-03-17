@@ -113,4 +113,4 @@ case class VariableWord(name: String) extends SimpleWord with Address:
     env push this
     r
 
-  override def toString: String = s"<address (variable '$name'): ${display(value)}>"
+  override def toString: String = s"<address (variable '$name')>"

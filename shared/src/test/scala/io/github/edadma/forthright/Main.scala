@@ -6,15 +6,7 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    variable a
-    see a
-    words
-    a .s
-    @ .s drop
-    123 a !
-    a @ . cr
-    see a
-    a .s
+    hex 12 decimal . cr
     """
   // env.trace = true
   env.interpret(input)

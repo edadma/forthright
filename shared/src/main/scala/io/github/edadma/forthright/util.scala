@@ -4,11 +4,6 @@ import io.github.edadma.char_reader.CharReader
 
 import scala.annotation.tailrec
 
-def display(a: Any): String =
-  a match
-    case n: Double => if n.isWhole then n.toInt.toString else n.toString
-    case _         => String.valueOf(a)
-
 @tailrec
 def skipWhile(r: CharReader, pred: Char => Boolean): CharReader = if pred(r.ch) then skipWhile(r.next, pred) else r
 

@@ -142,6 +142,11 @@ class Env extends Address:
 
   def defined(name: String): Boolean = dictionary.contains(name.toUpperCase)
 
+  def display(a: Any): String =
+    a match
+      case n: Double => if n.isWhole then Integer.toString(n.toInt, base.toInt) else n.toString
+      case _         => String.valueOf(a)
+
   def interpret(input: String): Unit = interpret(CharReader.fromString(input))
 
   @tailrec

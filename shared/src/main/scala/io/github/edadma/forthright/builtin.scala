@@ -17,7 +17,7 @@ val builtin =
     NucleusWord("OVER", env => env.push(env.dataStack(1))),
     NucleusWord("PICK", env => env.push(env.dataStack(env.popp - 1))),
     NucleusWord("DEPTH", env => env.pushn(env.dataStack.length)),
-    NucleusWord(".", env => print(display(env.pop))),
+    NucleusWord(".", env => print(env.display(env.pop))),
     NucleusWord("EMIT", env => print(env.popn.toChar)),
     NucleusWord("CR", _ => println),
     NucleusWord("SPACE", _ => print(" ")),
@@ -219,8 +219,8 @@ val builtin =
           case Right((r1, r2, s)) =>
             env.lookup(s, r1) match
               case DefinedWord(name, definition) => println(s": $name ${definition map (_.name) mkString " "} ;")
-              case ConstantWord(name, value)     => println(s"${display(value)} CONSTANT $name")
-              case v @ VariableWord(name)        => println(s"VARIABLE $name ( ${display(v.value)} )")
+              case ConstantWord(name, value)     => println(s"${env.display(value)} CONSTANT $name")
+              case v @ VariableWord(name)        => println(s"VARIABLE $name ( ${env.display(v.value)} )")
               case _                             => r1.error("not a user-defined word")
 
             r2
