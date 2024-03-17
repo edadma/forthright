@@ -166,4 +166,5 @@ class Env:
       |: 1- 1 - ;
       |: 2+ 2 + ;
       |: 2- 2 - ;
+      |: 2DUP ( n1 n2 -- n1 n2 n1 n2 ) OVER OVER ;
       |""".stripMargin)

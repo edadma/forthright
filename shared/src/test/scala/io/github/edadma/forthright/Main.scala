@@ -9,6 +9,7 @@ import pprint.pprintln
     : a false if ." true" cr then ." done" cr ;
     a
     see a
+    see 2dup
     """
   env.trace = true
   env.interpret(input)
