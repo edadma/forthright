@@ -7,6 +7,7 @@ import pprint.pprintln
   val input =
     """
     ." -" 2 SPACES ." -"
+    see spaces
     """
   // env.trace = true
   env.interpret(input)

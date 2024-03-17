@@ -138,6 +138,18 @@ val builtin =
           case _ => env.error("LOOP without corresponding DO")
       },
     ),
+    CompileTimeWord(
+      "+LOOP",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("+LOOP without corresponding DO")
+
+        env.pop match
+          case Do(idx) =>
+            env.addToDefinition(LoopWord("+LOOP", idx, _.popn))
+            r
+          case _ => env.error("+LOOP without corresponding DO")
+      },
+    ),
     new Word {
       val name = ".\""
 

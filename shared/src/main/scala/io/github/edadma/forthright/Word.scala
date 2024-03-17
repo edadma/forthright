@@ -92,7 +92,7 @@ case class LoopWord(name: String, idx: Int, offset: Env => Double) extends Simpl
     val disp = offset(env)
     val newIndex = index + disp
 
-    if disp > 0 && newIndex < end || disp < 0 && newIndex > end then
+    if disp > 0 && newIndex < end || disp < 0 && newIndex >= end then
       env.pc = idx
       loop.index = newIndex
     else env.returnStack.pop
