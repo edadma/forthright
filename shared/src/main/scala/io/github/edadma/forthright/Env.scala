@@ -18,6 +18,7 @@ enum Return:
   case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
 
+case class ConditionalBackpatch(idx: Int)
 case class Backpatch(idx: Int)
 
 class Env:

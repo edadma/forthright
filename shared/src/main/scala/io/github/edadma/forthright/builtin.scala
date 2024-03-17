@@ -83,8 +83,23 @@ val builtin =
     CompileTimeWord(
       "IF",
       { (env, r) =>
-        env push Backpatch(env.buf.length)
+        env push ConditionalBackpatch(env.buf.length)
         env.addToDefinition(null)
+        r
+      },
+    ),
+    CompileTimeWord(
+      "ELSE",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("ELSE without corresponding IF")
+
+        env.pop match
+          case ConditionalBackpatch(idx) =>
+            env.addToDefinition(null)
+            env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
+            env push null
+          case _ => env.error("ELSE without corresponding IF")
+
         r
       },
     ),
@@ -94,9 +109,11 @@ val builtin =
         if env.dataStack.isEmpty then env.error("THEN without corresponding IF")
 
         env.pop match
-          case Backpatch(idx) =>
+          case ConditionalBackpatch(idx) =>
             env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
             env.addToDefinition(NoopWord("THEN"))
+          case Backpatch(idx) =>
+            env.buf(idx) = BranchWord("ELSE", env.buf.length)
           case _ => env.error("THEN without corresponding IF")
 
         r

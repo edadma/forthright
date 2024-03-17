@@ -73,3 +73,8 @@ case class ConditionalBranchWord(name: String, idx: Int) extends SimpleWord:
     if !env.popb then env.pc = idx
 
     r
+
+case class BranchWord(name: String, idx: Int) extends SimpleWord:
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env.pc = idx
+    r
