@@ -23,6 +23,7 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "mod 1" in { stack("12 4 mod") shouldBe stack("0") }
   "mod 2" in { stack("12 5 mod") shouldBe stack("2") }
   "mod 3" in { stack("1.5 .5 mod") shouldBe stack("0") }
+  "negate" in { stack("3 negate") shouldBe stack("-3") }
 
   "or, boolean 1" in { stack("true false or") shouldBe stack("true") }
   "or, boolean 2" in { stack("false false or") shouldBe stack("false") }
