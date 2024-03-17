@@ -9,12 +9,13 @@ import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.compiletime.uninitialized
 import scala.language.postfixOps
+import Console.*
 
 enum Mode:
   case Run, Compile
 
 enum Return:
-  case Pointer(caller: ArraySeq[Word], idx: Int)
+  case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
 
 class Env:
@@ -27,8 +28,13 @@ class Env:
   var pos: CharReader = uninitialized
   var pc: Int = 0
   var code: ArraySeq[Word] = uninitialized
+  var trace = false
+
+  def debug(msg: String): Unit =
+    if trace then println(s"$GREEN$msg$RESET")
 
   def call(definition: ArraySeq[Word]): Unit =
+    returnStack push Return.Done
     code = definition
     pc = 0
     execute()
@@ -37,22 +43,26 @@ class Env:
   final def execute(): Unit =
     if pc < code.length then
       code(pc) match
-        case Definition(_, definition) =>
-          returnStack push Pointer(code, pc + 1)
+        case SimpleWrappedWord(pos, DefinedWord(name, definition)) =>
+          debug(pos.longErrorText(s">> calling $name").trim)
+          returnStack push Pointer(code, pc + 1, word)
+          word = name
           code = definition
           pc = 0
         case w =>
-          w.run(this, null)
+          w.run(this, null, null)
           pc += 1
 
       execute()
     else
       returnStack.pop match
-        case Return.Pointer(caller, idx) =>
+        case Return.Pointer(caller, idx, name) =>
+          debug(s"<< returning to $name from $word")
+          word = name
           code = caller
           pc = idx
           execute()
-        case Return.Done =>
+        case Return.Done => debug(s"<< returning from $word")
         case _           => error("return stack cluttered")
 
   def error(msg: String): Nothing =
@@ -108,7 +118,7 @@ class Env:
 
   def closeDefinition(): Unit =
     mode = Mode.Run
-    dictionary(word) = Definition(word, buf to ArraySeq)
+    dictionary(word) = DefinedWord(word, buf to ArraySeq)
 
   def addToDefinition(w: Word): Unit = buf += w
 

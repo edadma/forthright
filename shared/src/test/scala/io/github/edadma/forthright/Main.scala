@@ -15,4 +15,5 @@ import pprint.pprintln
     ." zxcv" cr
     """
 
+  env.trace = true
   interpret(env, input)

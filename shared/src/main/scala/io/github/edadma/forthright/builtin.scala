@@ -52,7 +52,7 @@ val builtin =
 
         PrintWord(s).compile(env, pos, r1.next)
 
-      def run(env: Env, r: CharReader): CharReader =
+      def run(env: Env, pos: CharReader, r: CharReader): CharReader =
         val (r1, s) = consumeWhile(skipWhitespace(r), _ != '"')
 
         print(s)
@@ -67,7 +67,7 @@ val builtin =
           case Left(r2) => r2.error("word name expected")
           case Right((r1, r2, s)) =>
             env.lookup(s, r1) match
-              case Definition(name, definition) =>
+              case DefinedWord(name, definition) =>
                 println(s": $name ${definition map (_.name) mkString " "} ;")
               case _ => r1.error("not a user-defined word")
             r2

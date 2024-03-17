@@ -46,7 +46,7 @@ def interpret(env: Env, input: CharReader): Unit =
           case Mode.Run =>
             env.pos = r
 
-            val r2 = w.run(env, r1)
+            val r2 = w.run(env, r, r1)
 
             env.pos = null
             r2
