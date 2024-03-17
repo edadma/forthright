@@ -43,6 +43,15 @@ val builtin =
           case (_, _)                                           => env.error("expected boolean or integer arguments")
         })),
     ),
+    NucleusWord(
+      "AND",
+      env =>
+        env.push(env.exec2[Any]({
+          case (a: Boolean, b: Boolean)                         => a && b
+          case (a: Double, b: Double) if a.isWhole && b.isWhole => (a.toInt & b.toInt).toDouble
+          case (_, _)                                           => env.error("expected boolean or integer arguments")
+        })),
+    ),
     //
     // Compiler words
     RuntimeWord(
