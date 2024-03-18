@@ -42,6 +42,12 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "and, boolean 4" in { stack("false true and") shouldBe stack("false") }
   "and, numeric" in { stack("5 3 and") shouldBe stack("1") }
 
+  "xor, boolean 1" in { stack("true false xor") shouldBe stack("true") }
+  "xor, boolean 2" in { stack("false false xor") shouldBe stack("false") }
+  "xor, boolean 3" in { stack("true true xor") shouldBe stack("false") }
+  "xor, boolean 4" in { stack("false true xor") shouldBe stack("true") }
+  "xor, numeric" in { stack("5 3 xor") shouldBe stack("6") }
+
   "not, boolean 1" in { stack("true not") shouldBe stack("false") }
   "not, boolean 2" in { stack("false not") shouldBe stack("true") }
 
