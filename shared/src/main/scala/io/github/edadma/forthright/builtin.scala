@@ -77,8 +77,10 @@ val builtin =
       ":",
       { (env, r) =>
         consumeWord(r) match
-          case Left(r2) => r2.error("word name expected")
+          case Left(r1) => r1.error("word name expected")
           case Right((r1, r2, s)) =>
+            if env.defined(s) then r1.error("duplicate definition")
+
             env.openDefinition(s)
             r2
       },
@@ -94,7 +96,7 @@ val builtin =
       "CONSTANT",
       { (env, r) =>
         consumeWord(r) match
-          case Left(r2) => r2.error("word name expected")
+          case Left(r2) => r2.error("constant name expected")
           case Right((_, r2, s)) =>
             env.addToDictionary(Seq(ConstantWord(s.toUpperCase, env.pop)))
             r2
@@ -104,7 +106,7 @@ val builtin =
       "VARIABLE",
       { (env, r) =>
         consumeWord(r) match
-          case Left(r2) => r2.error("word name expected")
+          case Left(r2) => r2.error("variable name expected")
           case Right((_, r2, s)) =>
             env.addToDictionary(Seq(VariableWord(s.toUpperCase)))
             r2
