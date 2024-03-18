@@ -6,7 +6,15 @@ import pprint.pprintln
   val env = new Env
   val input =
     """
-    hex 12 decimal . cr
+    : FACTORIAL ( n -- n! )
+      DUP 1 > IF
+        1+ 1 SWAP 1 DO I * LOOP
+      ELSE
+        DROP 1
+      THEN ;
+
+    0 factorial . cr
+    5 factorial . cr
     """
   // env.trace = true
   env.interpret(input)
