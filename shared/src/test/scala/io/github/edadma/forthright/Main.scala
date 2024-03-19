@@ -19,6 +19,7 @@ import pprint.pprintln
     variable count
     : a 1 count ! begin count @ dup 1+ count ! dup 3 = until ;
     a
+    see a
     .s
     """
   // env.trace = true
