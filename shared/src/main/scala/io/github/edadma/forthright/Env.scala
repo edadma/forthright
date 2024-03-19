@@ -18,6 +18,7 @@ enum Return:
   case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
   case Loop(var index: Double, end: Double)
+  case Data(value: Any)
 
 case class ConditionalBackpatch(idx: Int)
 case class Backpatch(idx: Int)
@@ -187,4 +188,7 @@ class Env extends Address:
       |: MAX ( n1 n2 -- n ) 2DUP > IF DROP ELSE SWAP DROP THEN ;
       |: ABS ( n -- |n| ) DUP 0< IF NEGATE THEN ;
       |: SPACES ( n -- ) 0 DO SPACE LOOP ;
+      |: +! ( n addr -- ) DUP @ ROT + SWAP ! ;
+      |: 1+! ( addr -- ) DUP @ 1 + SWAP ! ;
+      |: 1-! ( addr -- ) DUP @ -1 + SWAP ! ;
       |""".stripMargin)

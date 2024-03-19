@@ -29,6 +29,7 @@ val builtin =
     NucleusWord("MOD", env => env.push(env execn2 (_ % _))),
     NucleusWord("NEGATE", env => env.push(-env.popn)),
     NucleusWord("I", env => env.push(env.returnStack.top.asInstanceOf[Return.Loop].index)),
+    NucleusWord("J", env => env.push(env.returnStack(1).asInstanceOf[Return.Loop].index)),
     NucleusWord("<", env => env.push(env execn2 (_ < _))),
     NucleusWord(">", env => env.push(env execn2 (_ > _))),
     NucleusWord("<=", env => env.push(env execn2 (_ <= _))),
@@ -45,6 +46,9 @@ val builtin =
     NucleusWord("OCTAL", _.base = 8),
     NucleusWord("BINARY", _.base = 2),
     NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
+    NucleusWord(">R", env => env.returnStack.push(Return.Data(env.pop))),
+    NucleusWord("R>", env => env push env.returnStack.pop.asInstanceOf[Return.Data].value),
+    NucleusWord("R@", env => env push env.returnStack.top.asInstanceOf[Return.Data].value),
     NucleusWord(
       "OR",
       env =>
