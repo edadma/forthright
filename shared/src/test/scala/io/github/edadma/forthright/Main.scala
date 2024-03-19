@@ -16,9 +16,9 @@ import pprint.pprintln
     0 factorial . cr
     5 factorial . cr
 
-    : a 2 0 do 12 10 do i j loop loop ; a
-    a
-    see a
+    create array 2 allot
+    3 array !
+    array @ . cr
     .s
     """
   // env.trace = true
