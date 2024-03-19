@@ -16,8 +16,7 @@ import pprint.pprintln
     0 factorial . cr
     5 factorial . cr
 
-    variable count
-    : a 1 count ! begin count @ dup 1+ count ! dup 3 = until ;
+    : a 2 0 do 12 10 do i j loop loop ; a
     a
     see a
     .s

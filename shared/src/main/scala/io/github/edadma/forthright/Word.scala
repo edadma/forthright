@@ -3,6 +3,7 @@ package io.github.edadma.forthright
 import io.github.edadma.char_reader.CharReader
 
 import scala.collection.immutable.ArraySeq
+import scala.collection.mutable.ArrayBuffer
 
 abstract class Word:
   val name: String
@@ -41,10 +42,10 @@ case class DefinedWord(name: String, definition: ArraySeq[Word]) extends SimpleW
     env.call(definition)
     r
 
-case class RuntimeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
+case class RuntimeWord(name: String, action: (Env, CharReader, CharReader) => CharReader) extends Word:
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader = r.error("not allowed here")
 
-  def run(env: Env, pos: CharReader, r: CharReader): CharReader = action(env, r)
+  def run(env: Env, pos: CharReader, r: CharReader): CharReader = action(env, pos, r)
 
 case class CompileTimeWord(name: String, action: (Env, CharReader) => CharReader) extends Word:
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader = action(env, r)
@@ -108,10 +109,6 @@ case class ConstantWord(name: String, value: Any) extends SimpleWord:
     env push value
     r
 
-trait Address:
-  def value: Any
-  def value_=(x: Any): Unit
-
 case class VariableWord(name: String) extends SimpleWord with Address:
   var value: Any = null
 
@@ -120,3 +117,16 @@ case class VariableWord(name: String) extends SimpleWord with Address:
     r
 
   override def toString: String = s"<address (variable '$name')>"
+
+case class ArrayWord(name: String) extends SimpleWord with Address:
+  val array = new ArrayBuffer[Any]
+
+  override def value: Any = array.head
+
+  override def value_=(x: Any): Unit = array(0) = x
+
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push this
+    r
+
+  override def toString: String = s"<address (array '$name')>"

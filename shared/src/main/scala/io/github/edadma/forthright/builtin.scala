@@ -80,7 +80,7 @@ val builtin =
     // Compiler words
     RuntimeWord(
       ":",
-      { (env, r) =>
+      { (env, _, r) =>
         consumeWord(r) match
           case Left(r1) => r1.error("word name expected")
           case Right((r1, r2, s)) =>
@@ -99,7 +99,7 @@ val builtin =
     ),
     RuntimeWord(
       "CONSTANT",
-      { (env, r) =>
+      { (env, _, r) =>
         consumeWord(r) match
           case Left(r2) => r2.error("constant name expected")
           case Right((_, r2, s)) =>
@@ -109,12 +109,31 @@ val builtin =
     ),
     RuntimeWord(
       "VARIABLE",
-      { (env, r) =>
+      { (env, _, r) =>
         consumeWord(r) match
           case Left(r2) => r2.error("variable name expected")
           case Right((_, r2, s)) =>
             env.addToDictionary(Seq(VariableWord(s.toUpperCase)))
             r2
+      },
+    ),
+    RuntimeWord(
+      "CREATE",
+      { (env, _, r) =>
+        consumeWord(r) match
+          case Left(r2) => r2.error("array name expected")
+          case Right((_, r2, s)) =>
+            env.addToDictionary(Seq(ArrayWord(s.toUpperCase)))
+            r2
+      },
+    ),
+    RuntimeWord(
+      "ALLOT",
+      { (env, pos, r) =>
+        env.dictionary.last._2 match
+          case w: ArrayWord => w.array.appendAll(Iterator.fill(env.popp)(null))
+          case _            => pos.error("can only ALLOT after CREATE")
+        r
       },
     ),
     CompileTimeWord(
@@ -146,9 +165,9 @@ val builtin =
         if env.dataStack.isEmpty then env.error("THEN without corresponding IF")
 
         env.pop match
-          case If(idx) => env.buf(idx) = FalseBranchWord("IF", env.buf.length)
-          case Else(idx)            => env.buf(idx) = BranchWord("ELSE", env.buf.length)
-          case _                         => env.error("THEN without corresponding IF")
+          case If(idx)   => env.buf(idx) = FalseBranchWord("IF", env.buf.length)
+          case Else(idx) => env.buf(idx) = BranchWord("ELSE", env.buf.length)
+          case _         => env.error("THEN without corresponding IF")
 
         env.addToDefinition(NoopWord("THEN"))
         r
@@ -240,7 +259,7 @@ val builtin =
     NucleusWord("NULL", _ push null),
     RuntimeWord(
       "SEE",
-      { (env, r) =>
+      { (env, _, r) =>
         consumeWord(r) match
           case Left(r2) => r2.error("word name expected")
           case Right((r1, r2, s)) =>
