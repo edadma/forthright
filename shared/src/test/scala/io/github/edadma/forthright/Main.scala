@@ -16,8 +16,10 @@ import pprint.pprintln
     0 factorial . cr
     5 factorial . cr
 
-    : a 0 begin dup . cr 1+ dup 2 = until ;
+    variable count
+    : a 1 count ! begin count @ dup 1+ count ! dup 3 = until ;
     a
+    .s
     """
   // env.trace = true
   env.interpret(input)
