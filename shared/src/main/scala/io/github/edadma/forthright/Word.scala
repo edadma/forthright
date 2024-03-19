@@ -66,7 +66,13 @@ case class PrintWord(s: String) extends SimpleWord:
 case class NoopWord(name: String) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader = r
 
-case class ConditionalBranchWord(name: String, idx: Int) extends SimpleWord:
+case class TrueBranchWord(name: String, idx: Int) extends SimpleWord:
+  override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    if env.popb then env.pc = idx
+
+    r
+
+case class FalseBranchWord(name: String, idx: Int) extends SimpleWord:
   override def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     if !env.popb then env.pc = idx
 

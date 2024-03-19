@@ -20,9 +20,10 @@ enum Return:
   case Loop(var index: Double, end: Double)
   case Data(value: Any)
 
-case class ConditionalBackpatch(idx: Int)
-case class Backpatch(idx: Int)
+case class If(idx: Int)
+case class Else(idx: Int)
 case class Do(idx: Int)
+case class Begin(idx: Int)
 
 class Env extends Address:
   var base: Double = 10

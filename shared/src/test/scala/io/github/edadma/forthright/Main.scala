@@ -16,7 +16,7 @@ import pprint.pprintln
     0 factorial . cr
     5 factorial . cr
 
-    : a 2 0 do 12 10 do i . space j . cr loop loop ;
+    : a 0 begin dup . cr 1+ dup 2 = until ;
     a
     """
   // env.trace = true

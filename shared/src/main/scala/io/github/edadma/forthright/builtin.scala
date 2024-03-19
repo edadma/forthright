@@ -120,7 +120,7 @@ val builtin =
     CompileTimeWord(
       "IF",
       { (env, r) =>
-        env push ConditionalBackpatch(env.buf.length)
+        env push If(env.buf.length)
         env.addToDefinition(null)
         r
       },
@@ -131,9 +131,9 @@ val builtin =
         if env.dataStack.isEmpty then env.error("ELSE without corresponding IF")
 
         env.pop match
-          case ConditionalBackpatch(idx) =>
-            env push Backpatch(env.buf.length)
-            env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
+          case If(idx) =>
+            env push Else(env.buf.length)
+            env.buf(idx) = FalseBranchWord("IF", env.buf.length)
             env.addToDefinition(null)
           case _ => env.error("ELSE without corresponding IF")
 
@@ -146,12 +146,32 @@ val builtin =
         if env.dataStack.isEmpty then env.error("THEN without corresponding IF")
 
         env.pop match
-          case ConditionalBackpatch(idx) => env.buf(idx) = ConditionalBranchWord("IF", env.buf.length)
-          case Backpatch(idx)            => env.buf(idx) = BranchWord("ELSE", env.buf.length)
+          case If(idx) => env.buf(idx) = FalseBranchWord("IF", env.buf.length)
+          case Else(idx)            => env.buf(idx) = BranchWord("ELSE", env.buf.length)
           case _                         => env.error("THEN without corresponding IF")
 
         env.addToDefinition(NoopWord("THEN"))
         r
+      },
+    ),
+    CompileTimeWord(
+      "BEGIN",
+      { (env, r) =>
+        env push Begin(env.buf.length)
+        env.addToDefinition(NoopWord("BEGIN"))
+        r
+      },
+    ),
+    CompileTimeWord(
+      "UNTIL",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("UNTIL without corresponding BEGIN")
+
+        env.pop match
+          case Begin(idx) =>
+            env.addToDefinition(FalseBranchWord("UNTIL", idx))
+            r
+          case _ => env.error("UNTIL without corresponding BEGIN")
       },
     ),
     CompileTimeWord(
