@@ -8,50 +8,51 @@ val builtin =
   List(
     //
     // Nucleus words
-    NucleusWord("DUP", env => env push env.dataStack.top),
-    NucleusWord("?DUP", env => if env.dataStack.top != 0 then env push env.dataStack.top),
-    NucleusWord("DROP", env => env.pop),
-    NucleusWord("SWAP", env => env.pushAll(env npop 2 reverse)),
-    NucleusWord("ROT", env => env.pushAll(env.npop(2) :+ env.pop)),
-    NucleusWord("ROLL", env => env.pushAll(env.npop(env.popp - 1) :+ env.pop)),
-    NucleusWord("OVER", env => env.push(env.dataStack(1))),
-    NucleusWord("PICK", env => env.push(env.dataStack(env.popp - 1))),
-    NucleusWord("DEPTH", env => env.pushn(env.dataStack.length)),
-    NucleusWord(".", env => print(env.display(env.pop))),
-    NucleusWord("?", env => print(env.display(env.pop.asInstanceOf[Address].value))),
-    NucleusWord("EMIT", env => print(env.popn.toChar)),
-    NucleusWord("CR", _ => println),
-    NucleusWord("SPACE", _ => print(" ")),
-    NucleusWord("+", env => env.push(env npopn 2 sum)),
-    NucleusWord("*", env => env.push(env npopn 2 product)),
-    NucleusWord("-", env => env.push(env execn2 (_ - _))),
-    NucleusWord("/", env => env.push(env execn2 (_ / _))),
-    NucleusWord("MOD", env => env.push(env execn2 (_ % _))),
-    NucleusWord("NEGATE", env => env.push(-env.popn)),
-    NucleusWord("I", env => env.push(env.returnStack.top.asInstanceOf[Return.Loop].index)),
-    NucleusWord("J", env => env.push(env.returnStack(1).asInstanceOf[Return.Loop].index)),
-    NucleusWord("<", env => env.push(env execn2 (_ < _))),
-    NucleusWord(">", env => env.push(env execn2 (_ > _))),
-    NucleusWord("<=", env => env.push(env execn2 (_ <= _))),
-    NucleusWord(">=", env => env.push(env execn2 (_ >= _))),
-    NucleusWord("=", env => env.push(env.exec2[Any](_ == _))),
-    NucleusWord("<>", env => env.push(env.exec2[Any](_ != _))),
-    NucleusWord(".S", env => println(env.stack)),
-    NucleusWord("WORDS", env => println(env.dictionary.keys.toList.reverse mkString " ")),
-    NucleusWord("@", env => env push env.pop.asInstanceOf[Address].value),
-    NucleusWord("!", env => env.pop.asInstanceOf[Address].value = env.pop),
-    NucleusWord("BASE", env => env push env),
-    NucleusWord("DECIMAL", _.base = 10),
-    NucleusWord("HEX", _.base = 16),
-    NucleusWord("OCTAL", _.base = 8),
-    NucleusWord("BINARY", _.base = 2),
-    NucleusWord("NOT", env => env push !env.dataStack.pop.asInstanceOf[Boolean]),
-    NucleusWord(">R", env => env.returnStack.push(Return.Data(env.pop))),
-    NucleusWord("R>", env => env push env.returnStack.pop.asInstanceOf[Return.Data].value),
-    NucleusWord("R@", env => env push env.returnStack.top.asInstanceOf[Return.Data].value),
+    NucleusWord("DUP", (env, _) => env push env.dataStack.top),
+    NucleusWord("?DUP", (env, _) => if env.dataStack.top != 0 then env push env.dataStack.top),
+    NucleusWord("DROP", (env, _) => env.pop),
+    NucleusWord("SWAP", (env, _) => env.pushAll(env npop 2 reverse)),
+    NucleusWord("ROT", (env, _) => env.pushAll(env.npop(2) :+ env.pop)),
+    NucleusWord("ROLL", (env, _) => env.pushAll(env.npop(env.popp - 1) :+ env.pop)),
+    NucleusWord("OVER", (env, _) => env.push(env.dataStack(1))),
+    NucleusWord("PICK", (env, _) => env.push(env.dataStack(env.popp - 1))),
+    NucleusWord("DEPTH", (env, _) => env.pushn(env.dataStack.length)),
+    NucleusWord(".", (env, _) => print(env.display(env.pop))),
+    NucleusWord("?", (env, _) => print(env.display(env.pop.asInstanceOf[Address].value))),
+    NucleusWord("EMIT", (env, _) => print(env.popn.toChar)),
+    NucleusWord("CR", (_, _) => println),
+    NucleusWord("SPACE", (_, _) => print(" ")),
+    NucleusWord("+", (env, _) => env.push(env npopn 2 sum)),
+    NucleusWord("*", (env, _) => env.push(env npopn 2 product)),
+    NucleusWord("-", (env, _) => env.push(env execn2 (_ - _))),
+    NucleusWord("/", (env, _) => env.push(env execn2 (_ / _))),
+    NucleusWord("MOD", (env, _) => env.push(env execn2 (_ % _))),
+    NucleusWord("NEGATE", (env, _) => env.push(-env.popn)),
+    NucleusWord("I", (env, _) => env.push(env.returnStack.top.asInstanceOf[Return.Loop].index)),
+    NucleusWord("J", (env, _) => env.push(env.returnStack(1).asInstanceOf[Return.Loop].index)),
+    NucleusWord("<", (env, _) => env.push(env execn2 (_ < _))),
+    NucleusWord(">", (env, _) => env.push(env execn2 (_ > _))),
+    NucleusWord("<=", (env, _) => env.push(env execn2 (_ <= _))),
+    NucleusWord(">=", (env, _) => env.push(env execn2 (_ >= _))),
+    NucleusWord("=", (env, _) => env.push(env.exec2[Any](_ == _))),
+    NucleusWord("<>", (env, _) => env.push(env.exec2[Any](_ != _))),
+    NucleusWord(".S", (env, _) => println(env.stack)),
+    NucleusWord("WORDS", (env, _) => println(env.dictionary.keys.toList.reverse mkString " ")),
+    NucleusWord("@", (env, _) => env push env.pop.asInstanceOf[Address].value),
+    NucleusWord("!", (env, _) => env.pop.asInstanceOf[Address].value = env.pop),
+    NucleusWord("BASE", (env, _) => env push env),
+    NucleusWord("DECIMAL", (env, _) => env.base = 10),
+    NucleusWord("HEX", (env, _) => env.base = 16),
+    NucleusWord("OCTAL", (env, _) => env.base = 8),
+    NucleusWord("BINARY", (env, _) => env.base = 2),
+    NucleusWord("NOT", (env, _) => env push !env.dataStack.pop.asInstanceOf[Boolean]),
+    NucleusWord(">R", (env, _) => env.returnStack.push(Return.Data(env.pop))),
+    NucleusWord("R>", (env, _) => env push env.returnStack.pop.asInstanceOf[Return.Data].value),
+    NucleusWord("R@", (env, _) => env push env.returnStack.top.asInstanceOf[Return.Data].value),
+    NucleusWord("EXECUTE", (env, pos) => env.pop.asInstanceOf[Word].run(env, pos, null)),
     NucleusWord(
       "OR",
-      env =>
+      (env, _) =>
         env.push(env.exec2[Any]({
           case (a: Boolean, b: Boolean)                         => a || b
           case (a: Double, b: Double) if a.isWhole && b.isWhole => (a.toInt | b.toInt).toDouble
@@ -60,7 +61,7 @@ val builtin =
     ),
     NucleusWord(
       "XOR",
-      env =>
+      (env, _) =>
         env.push(env.exec2[Any]({
           case (a: Boolean, b: Boolean)                         => a ^ b
           case (a: Double, b: Double) if a.isWhole && b.isWhole => (a.toInt ^ b.toInt).toDouble
@@ -69,7 +70,7 @@ val builtin =
     ),
     NucleusWord(
       "AND",
-      env =>
+      (env, _) =>
         env.push(env.exec2[Any]({
           case (a: Boolean, b: Boolean)                         => a && b
           case (a: Double, b: Double) if a.isWhole && b.isWhole => (a.toInt & b.toInt).toDouble
@@ -226,6 +227,29 @@ val builtin =
       },
     ),
     new Word {
+      val name = "'"
+
+      def compile(env: Env, pos: CharReader, r: CharReader): CharReader =
+        consumeWord(r) match
+          case Left(r2) => r2.error("word name expected")
+          case Right((r1, r2, s)) =>
+            env.lookup(s, r1) match
+              case w: Word =>
+                TickWord(w).compile(env, pos, r2)
+                r2
+              case _ => r1.error("unknown word")
+
+      def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+        consumeWord(r) match
+          case Left(r2) => r2.error("word name expected")
+          case Right((r1, r2, s)) =>
+            env.lookup(s, r1) match
+              case w: Word =>
+                env push w
+                r2
+              case _ => r1.error("unknown word")
+    },
+    new Word {
       val name = ".\""
 
       def compile(env: Env, pos: CharReader, r: CharReader): CharReader =
@@ -254,9 +278,9 @@ val builtin =
     },
     //
     // non Forth-79 words
-    NucleusWord("TRUE", _ push true),
-    NucleusWord("FALSE", _ push false),
-    NucleusWord("NULL", _ push null),
+    LiteralWord("TRUE", true),
+    LiteralWord("FALSE", false),
+    LiteralWord("NULL", null),
     RuntimeWord(
       "SEE",
       { (env, _, r) =>

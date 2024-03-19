@@ -16,10 +16,13 @@ import pprint.pprintln
     0 factorial . cr
     5 factorial . cr
 
-    create array 2 allot
+    ( create array 2 allot
     3 array !
     array @ . cr
-    .s
+    .s )
+
+    : a 5 ' factorial execute . cr ; a
+    see a
     """
   // env.trace = true
   env.interpret(input)

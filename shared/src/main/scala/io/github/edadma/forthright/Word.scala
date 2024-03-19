@@ -12,6 +12,8 @@ abstract class Word:
 
   def run(env: Env, pos: CharReader, r: CharReader): CharReader
 
+  override def toString: String = s"<word: $name>"
+
 case class SimpleWrappedWord(pos: CharReader, word: Word) extends Word:
   val name: String = word.name
 
@@ -30,9 +32,14 @@ abstract class SimpleWord extends Word:
     env.addToDefinition(SimpleWrappedWord(pos, this))
     r
 
-case class NucleusWord(name: String, action: Env => Unit) extends SimpleWord:
+case class NucleusWord(name: String, action: (Env, CharReader) => Unit) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
-    action(env)
+    action(env, pos)
+    r
+
+case class LiteralWord(name: String, literal: Any) extends SimpleWord:
+  def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push literal
     r
 
 case class DefinedWord(name: String, definition: ArraySeq[Word]) extends SimpleWord:
@@ -55,6 +62,13 @@ case class CompileTimeWord(name: String, action: (Env, CharReader) => CharReader
 case class NumberWord(name: String, n: Double) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     env push n
+    r
+
+case class TickWord(word: Word) extends SimpleWord:
+  val name = s"' ${word.name}"
+
+  def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push word
     r
 
 case class PrintWord(s: String) extends SimpleWord:

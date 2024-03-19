@@ -65,7 +65,7 @@ class Env extends Address:
           code = definition
           pc = 0
         case w =>
-          w.run(this, null, null)
+          w.run(this, pos, null)
           pc += 1
 
       execute()
