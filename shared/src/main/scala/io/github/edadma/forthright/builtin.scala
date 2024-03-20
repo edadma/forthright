@@ -214,9 +214,8 @@ val builtin =
 
         env.pop match
           case While(begin, idx) =>
-            env.buf(idx) = FalseBranchWord("WHILE", idx)
-            env push Begin(env.buf.length)
-            env.addToDefinition(null)
+            env.buf(idx) = FalseBranchWord("WHILE", env.buf.length)
+            env.addToDefinition(BranchWord("REPEAT", begin))
             r
           case _ => env.error("REPEAT without corresponding WHILE")
       },
