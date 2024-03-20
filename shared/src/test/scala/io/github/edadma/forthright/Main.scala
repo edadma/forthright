@@ -20,9 +20,6 @@ import pprint.pprintln
     3 array !
     array @ . cr
     .s )
-
-    : a 5 ' factorial execute . cr ; a
-    see a
     """
-  // env.trace = true
+//  env.trace = true
   env.interpret(input)

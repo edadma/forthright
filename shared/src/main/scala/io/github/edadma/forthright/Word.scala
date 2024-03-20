@@ -14,7 +14,7 @@ abstract class Word:
 
   override def toString: String = s"<word: $name>"
 
-case class SimpleWrappedWord(pos: CharReader, word: Word) extends Word:
+case class WrapperWord(pos: CharReader, word: Word) extends Word:
   val name: String = word.name
 
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader = pos.error("can't compile wrapped word")
@@ -29,7 +29,7 @@ case class SimpleWrappedWord(pos: CharReader, word: Word) extends Word:
 
 abstract class SimpleWord extends Word:
   def compile(env: Env, pos: CharReader, r: CharReader): CharReader =
-    env.addToDefinition(SimpleWrappedWord(pos, this))
+    env.addToDefinition(WrapperWord(pos, this))
     r
 
 case class NucleusWord(name: String, action: (Env, CharReader) => Unit) extends SimpleWord:
@@ -44,7 +44,7 @@ case class LiteralWord(name: String, literal: Any) extends SimpleWord:
 
 case class DefinedWord(name: String, definition: ArraySeq[Word]) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
-    env.debug(pos.longErrorText(s">> calling $name").trim)
+    env.debug(if pos ne null then pos.longErrorText(s">> calling $name").trim else s">> calling $name")
     env.word = name
     env.call(definition)
     r

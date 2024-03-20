@@ -43,7 +43,7 @@ class Env extends Address:
 
   def stack: String = (dataStack map display).reverse mkString " "
 
-  def debug(msg: String): Unit =
+  def debug(msg: => String): Unit =
     if trace then
       println(s"$GREEN$msg")
       println(s"stack: $stack$RESET")
@@ -58,14 +58,22 @@ class Env extends Address:
   final def execute(): Unit =
     if pc < code.length then
       code(pc) match
-        case SimpleWrappedWord(pos, DefinedWord(name, definition)) =>
-          debug(pos.longErrorText(s">> calling $name").trim)
+        case word if word.name.startsWith("( ") || word.name == "ELSE" || word.name == "THEN" || word.name == "LOOP" =>
+          word.run(this, pos, null)
+          pc += 1
+        case WrapperWord(pos, DefinedWord(name, definition)) =>
+          debug(pos.longErrorText(s">> $name").trim)
           returnStack push Pointer(code, pc + 1, word)
           word = name
           code = definition
           pc = 0
-        case w =>
-          w.run(this, pos, null)
+        case WrapperWord(pos, word) =>
+          debug(pos.longErrorText(word.name).trim)
+          word.run(this, pos, null)
+          pc += 1
+        case word =>
+          debug(word.name)
+          word.run(this, pos, null)
           pc += 1
 
       execute()
