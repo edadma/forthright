@@ -24,6 +24,7 @@ case class If(idx: Int)
 case class Else(idx: Int)
 case class Do(idx: Int)
 case class Begin(idx: Int)
+case class While(begin: Int, idx: Int)
 
 class Env extends Address:
   var base: Double = 10

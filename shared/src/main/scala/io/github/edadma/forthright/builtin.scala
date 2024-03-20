@@ -195,6 +195,33 @@ val builtin =
       },
     ),
     CompileTimeWord(
+      "WHILE",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("WHILE without corresponding BEGIN")
+
+        env.pop match
+          case Begin(idx) =>
+            env push While(idx, env.buf.length)
+            env.addToDefinition(null)
+            r
+          case _ => env.error("WHILE without corresponding BEGIN")
+      },
+    ),
+    CompileTimeWord(
+      "REPEAT",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("REPEAT without corresponding WHILE")
+
+        env.pop match
+          case While(begin, idx) =>
+            env.buf(idx) = FalseBranchWord("WHILE", idx)
+            env push Begin(env.buf.length)
+            env.addToDefinition(null)
+            r
+          case _ => env.error("REPEAT without corresponding WHILE")
+      },
+    ),
+    CompileTimeWord(
       "DO",
       { (env, r) =>
         env push Do(env.buf.length)
