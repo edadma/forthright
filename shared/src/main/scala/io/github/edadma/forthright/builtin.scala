@@ -22,7 +22,17 @@ val builtin =
     NucleusWord("EMIT", (env, _) => print(env.popn.toChar)),
     NucleusWord("CR", (_, _) => println),
     NucleusWord("SPACE", (_, _) => print(" ")),
-    NucleusWord("+", (env, _) => env.push(env npopn 2 sum)),
+    NucleusWord(
+      "+",
+      (env, pos) =>
+        env.push({
+          env.npop[Any](2) match
+            case Vector(a: Double, b: Double)                 => a + b
+            case Seq(a: Double, b: ArrayAddress) if a.isWhole => b.index(a.toInt, pos)
+            case Seq(a: ArrayAddress, b: Double) if b.isWhole => a.index(b.toInt, pos)
+            case _                                            => pos.error("can add")
+        }),
+    ),
     NucleusWord("*", (env, _) => env.push(env npopn 2 product)),
     NucleusWord("-", (env, _) => env.push(env execn2 (_ - _))),
     NucleusWord("/", (env, _) => env.push(env execn2 (_ / _))),

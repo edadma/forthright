@@ -13,18 +13,8 @@ import pprint.pprintln
         DROP 1
       THEN ;
 
-    ( 0 factorial . cr
-    5 factorial . cr )
-
-    ( create array 2 allot
-    3 array !
-    array @ . cr
-    .s )
-
-    variable count
-    : a 0 count ! begin count @ 1+ dup count ! 3 <= while count @ repeat ;
-    a
-    .s
+    0 factorial . cr
+    5 factorial . cr
     """
 //  env.trace = true
   env.interpret(input)

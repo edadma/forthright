@@ -132,7 +132,7 @@ case class VariableWord(name: String) extends SimpleWord with Address:
 
   override def toString: String = s"<address (variable '$name')>"
 
-case class ArrayWord(name: String) extends SimpleWord with Address:
+case class ArrayWord(name: String) extends SimpleWord with ArrayAddress:
   val array = new ArrayBuffer[Any]
 
   override def value: Any = array.head

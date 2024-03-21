@@ -120,7 +120,7 @@ class Env extends Address:
 
   def pushAll(elems: scala.collection.IterableOnce[Any]): Unit = dataStack.pushAll(elems)
 
-  infix def npop[T](n: Int): Seq[T] = ((1 to n) map (_ => pop)).asInstanceOf[Seq[T]] reverse
+  infix def npop[T](n: Int): Vector[T] = ((1 to n) map (_ => pop)).asInstanceOf[Vector[T]] reverse
 
   infix def npopn(n: Int): Seq[Double] = npop[Double](n)
 
