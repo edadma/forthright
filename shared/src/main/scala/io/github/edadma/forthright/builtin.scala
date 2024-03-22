@@ -4,6 +4,8 @@ import io.github.edadma.char_reader.CharReader
 
 import scala.language.postfixOps
 
+import math.*
+
 val builtin =
   List(
     //
@@ -314,9 +316,9 @@ val builtin =
     },
     //
     // non Forth-79 words
-    LiteralWord("TRUE", true),
-    LiteralWord("FALSE", false),
-    LiteralWord("NULL", null),
+    ConstantWord("TRUE", true),
+    ConstantWord("FALSE", false),
+    ConstantWord("NULL", null),
     RuntimeWord(
       "SEE",
       { (env, _, r) =>
@@ -332,4 +334,12 @@ val builtin =
             r2
       },
     ),
+    ConstantWord("PI", Pi),
+    ConstantWord("E", E),
+    FunctionWord("COS", cos),
+    FunctionWord("SIN", sin),
+    FunctionWord("TAN", tan),
+    FunctionWord("EXP", exp),
+    FunctionWord("LN", log),
+    Function2Word("POW", pow),
   )

@@ -37,9 +37,16 @@ case class NucleusWord(name: String, action: (Env, CharReader) => Unit) extends 
     action(env, pos)
     r
 
-case class LiteralWord(name: String, literal: Any) extends SimpleWord:
+case class FunctionWord(name: String, f: Double => Double) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
-    env push literal
+    env push f(env.popn)
+    r
+
+case class Function2Word(name: String, f: (Double, Double) => Double) extends SimpleWord:
+  def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    val Seq(a, b) = env npopn 2
+
+    env push f(a, b)
     r
 
 case class DefinedWord(name: String, definition: ArraySeq[Word]) extends SimpleWord:

@@ -13,8 +13,8 @@ import pprint.pprintln
         DROP 1
       THEN ;
 
-    0 factorial . cr
-    5 factorial . cr
+    ( 0 factorial . cr
+    5 factorial . cr )
     """
 //  env.trace = true
   env.interpret(input)
