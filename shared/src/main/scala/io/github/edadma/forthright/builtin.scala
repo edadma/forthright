@@ -149,6 +149,15 @@ val builtin =
         r
       },
     ),
+    RuntimeWord(
+      ",",
+      { (env, pos, r) =>
+        env.dictionary.last._2 match
+          case w: ArrayWord => w.array += env.pop
+          case _            => pos.error("can only , after CREATE")
+        r
+      },
+    ),
     CompileTimeWord(
       "IF",
       { (env, r) =>
