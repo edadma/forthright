@@ -15,11 +15,11 @@ import pprint.pprintln
 
     ( 0 factorial . cr
     5 factorial . cr )
-    create a 3 , 4 , 5 ,
-    : b 3 0 do i 2 < if i else leave then loop ;
-    : c 0 2 do i 0> if i else leave then -1 +loop ;
-    b .s cr
-    c .s
+    
+    variable counter
+    ( : b 0 counter ! begin counter @ 3 < while counter @ . cr counter 1+! repeat ;)
+    : b 0 counter ! begin counter @ 3 < if counter @ counter 1+! else exit then again ;
+    b .s
     """
 //  env.trace = true
   env.interpret(input)

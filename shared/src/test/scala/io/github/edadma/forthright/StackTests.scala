@@ -77,10 +77,14 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "begin...until" in {
     stack("variable count : a 1 count ! begin count @ dup 1+ count ! dup 3 = until ; a") shouldBe stack("1 2 3")
   }
-
   "begin...while...repeat" in {
     stack("variable count : a 0 count ! begin count @ 1+ dup count ! 3 <= while count @ repeat ; a") shouldBe
       stack("1 2 3")
+  }
+  "begin...again" in {
+    stack(
+      "variable count : a 0 count ! begin count @ 3 < if count @ count 1+! else exit then again ; a",
+    ) shouldBe stack("0 1 2")
   }
 
   "base 1" in { stack("decimal 1.5") shouldBe stack("1.5") }

@@ -91,10 +91,11 @@ val builtin =
     ),
     NucleusWord(
       "LEAVE",
-      (env, pos) =>
+      (env, _) =>
         env.returnStack.top match
           case l @ Return.Loop(index, _) => l.end = index,
     ),
+    NucleusWord("EXIT", (env, _) => env.pc = env.code.length),
     //
     // Compiler words
     RuntimeWord(
@@ -207,6 +208,18 @@ val builtin =
         env push Begin(env.buf.length)
         env.addToDefinition(NoopWord("BEGIN"))
         r
+      },
+    ),
+    CompileTimeWord(
+      "AGAIN",
+      { (env, r) =>
+        if env.dataStack.isEmpty then env.error("AGAIN without corresponding BEGIN")
+
+        env.pop match
+          case Begin(idx) =>
+            env.addToDefinition(BranchWord("AGAIN", idx))
+            r
+          case _ => env.error("AGAIN without corresponding BEGIN")
       },
     ),
     CompileTimeWord(
