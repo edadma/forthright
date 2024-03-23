@@ -370,7 +370,6 @@ val builtin =
     FunctionWord("ROUND", rint),
     FunctionWord("CEIL", ceil),
     FunctionWord("FLOOR", floor),
-    FunctionWord("COS", cos),
     FunctionWord("ABS", abs),
     FunctionWord("COS", cos),
     FunctionWord("SIN", sin),

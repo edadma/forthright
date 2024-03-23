@@ -186,7 +186,7 @@ class Env extends Address:
   addToDictionary(builtin)
 
   interpret("""
-      |CREATE PAD 1000 ALLOT ;
+      |CREATE PAD 1000 ALLOT
       |: 0< ( n -- flag ) 0 < ;
       |: 0= ( n -- flag ) 0 = ;
       |: 0> ( n -- flag ) 0 > ;
