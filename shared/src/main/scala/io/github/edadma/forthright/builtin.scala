@@ -89,6 +89,12 @@ val builtin =
           case (_, _)                                           => env.error("expected boolean or integer arguments")
         })),
     ),
+    NucleusWord(
+      "LEAVE",
+      (env, pos) =>
+        env.returnStack.top match
+          case l @ Return.Loop(index, _) => l.end = index,
+    ),
     //
     // Compiler words
     RuntimeWord(

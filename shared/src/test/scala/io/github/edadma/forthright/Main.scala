@@ -16,7 +16,7 @@ import pprint.pprintln
     ( 0 factorial . cr
     5 factorial . cr )
     create a 3 , 4 , 5 ,
-    : b 3 0 do a i + @ . cr loop ;
+    : b 0 2 do a i 0> if i + @ . cr else leave then -1 +loop ;
     b
     """
 //  env.trace = true

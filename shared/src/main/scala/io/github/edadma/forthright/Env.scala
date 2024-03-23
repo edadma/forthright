@@ -17,7 +17,7 @@ enum Mode:
 enum Return:
   case Pointer(caller: ArraySeq[Word], idx: Int, word: String)
   case Done
-  case Loop(var index: Double, end: Double)
+  case Loop(var index: Double, var end: Double)
   case Data(value: Any)
 
 case class If(idx: Int)
