@@ -15,10 +15,6 @@ import pprint.pprintln
 
     ( 0 factorial . cr
     5 factorial . cr )
-    
-    variable counter
-    ( : b 0 counter ! begin counter @ 3 < while counter @ . cr counter 1+! repeat ;)
-    rnd . cr
     """
 //  env.trace = true
   env.interpret(input)
