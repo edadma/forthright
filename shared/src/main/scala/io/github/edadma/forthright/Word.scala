@@ -37,6 +37,11 @@ case class NucleusWord(name: String, action: (Env, CharReader) => Unit) extends 
     action(env, pos)
     r
 
+case class NullaryWord(name: String, f: () => Double) extends SimpleWord:
+  def run(env: Env, pos: CharReader, r: CharReader): CharReader =
+    env push f()
+    r
+
 case class FunctionWord(name: String, f: Double => Double) extends SimpleWord:
   def run(env: Env, pos: CharReader, r: CharReader): CharReader =
     env push f(env.popn)

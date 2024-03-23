@@ -18,8 +18,7 @@ import pprint.pprintln
     
     variable counter
     ( : b 0 counter ! begin counter @ 3 < while counter @ . cr counter 1+! repeat ;)
-    : b 0 counter ! begin counter @ 3 < if counter @ counter 1+! else exit then again ;
-    b .s
+    rnd . cr
     """
 //  env.trace = true
   env.interpret(input)
