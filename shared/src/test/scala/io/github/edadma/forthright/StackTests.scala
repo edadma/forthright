@@ -71,6 +71,9 @@ class StackTests extends AnyFreeSpec with Matchers with Tests:
   "do...loop 2" in { stack(": a 0 3 do i -1 +loop ; a") shouldBe stack("3 2 1 0") }
   "do...loop 3" in { stack(": a 2 0 do 12 10 do i j loop loop ; a") shouldBe stack("10 0 11 0 10 1 11 1") }
 
+  "leave 1" in { stack(": a 3 0 do i 2 < if i else leave then loop ; a") shouldBe stack("0 1") }
+  "leave 2" in { stack(": a 0 2 do i 0> if i else leave then -1 +loop ; a") shouldBe stack("2 1") }
+
   "begin...until" in {
     stack("variable count : a 1 count ! begin count @ dup 1+ count ! dup 3 = until ; a") shouldBe stack("1 2 3")
   }
