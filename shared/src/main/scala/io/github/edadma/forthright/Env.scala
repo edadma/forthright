@@ -196,8 +196,6 @@ class Env extends Address:
       |: 2- ( n -- n-2 ) 2 - ;
       |: 2DUP ( n1 n2 -- n1 n2 n1 n2 ) OVER OVER ;
       |: 2DROP ( n1 n2 -- ) DROP DROP ;
-      |: MIN ( n1 n2 -- n ) 2DUP < IF DROP ELSE SWAP DROP THEN ;
-      |: MAX ( n1 n2 -- n ) 2DUP > IF DROP ELSE SWAP DROP THEN ;
       |: SPACES ( n -- ) 0 DO SPACE LOOP ;
       |: +! ( n addr -- ) DUP @ ROT + SWAP ! ;
       |: 1+! ( addr -- ) DUP @ 1 + SWAP ! ;

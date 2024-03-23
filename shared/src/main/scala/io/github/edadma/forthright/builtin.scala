@@ -376,5 +376,7 @@ val builtin =
     FunctionWord("TAN", tan),
     FunctionWord("EXP", exp),
     FunctionWord("LN", log),
+    Function2Word("MIN", min),
+    Function2Word("MAX", max),
     Function2Word("POW", pow),
   )
